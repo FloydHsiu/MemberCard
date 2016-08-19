@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject;
+package com.floydxiu.hceproject.Splash;
 
 import android.content.SharedPreferences;
 

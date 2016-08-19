@@ -1,8 +1,10 @@
-package com.floydxiu.hceproject;
+package com.floydxiu.hceproject.Splash;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.floydxiu.hceproject.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -10,11 +12,14 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        SplashDisplayTimer splashDisplayTimer = new SplashDisplayTimer();
+        splashDisplayTimer.execute(1.5);
     }
 
-    private class SplashDisplayTimer extends AsyncTask<Integer, Void, Void>{
+    private class SplashDisplayTimer extends AsyncTask<Double, Void, Void>{
         @Override
-        protected Void doInBackground(Integer... params) {
+        protected Void doInBackground(Double... params) {
             int timer = params[0].intValue();
             try {
                 Thread.sleep(timer*1000);
