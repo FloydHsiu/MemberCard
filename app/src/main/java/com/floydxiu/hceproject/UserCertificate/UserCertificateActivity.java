@@ -7,6 +7,8 @@ import com.floydxiu.hceproject.R;
 
 /**
  * Created by Floyd on 2016/8/19.
+ * This Class is the center of the UserCertificate page.
+ * This Class will use two fragment to complete "Sign up" and "Login" function
  */
 
 public class UserCertificateActivity extends AppCompatActivity {
