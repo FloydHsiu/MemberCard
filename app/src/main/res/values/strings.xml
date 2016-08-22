@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HCEproject</string>
+    <string name="account">帳號</string>
+    <string name="password">密碼</string>
 </resources>
