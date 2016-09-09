@@ -3,4 +3,33 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <GridLayout
+        android:id="@+id/layoutUserCertificateFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </GridLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogin"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Sign Up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSignup"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 </LinearLayout>
