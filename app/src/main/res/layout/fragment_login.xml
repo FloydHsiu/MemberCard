@@ -12,16 +12,15 @@
             android:text="@string/account"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/FragmentLoginAccountTxv"
+            android:id="@+id/txvFragmentLoginAccount"
             android:layout_weight="1" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:inputType="textPersonName"
-            android:text="Name"
             android:ems="10"
-            android:id="@+id/FragmentLoginAccountEdt"
+            android:id="@+id/edtFragmentLoginAccount"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -35,16 +34,15 @@
             android:text="@string/password"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/FragmentLoginPwdTxv"
+            android:id="@+id/txvFragmentLoginPwd"
             android:layout_weight="1" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:inputType="textPassword"
-            android:text="Name"
             android:ems="10"
-            android:id="@+id/FragmentLoginPwdEdt"
+            android:id="@+id/edtFragmentLoginPwd"
             android:layout_weight="1" />
 
     </LinearLayout>

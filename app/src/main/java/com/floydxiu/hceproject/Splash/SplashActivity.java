@@ -1,10 +1,12 @@
 package com.floydxiu.hceproject.Splash;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.floydxiu.hceproject.R;
+import com.floydxiu.hceproject.UserCertificate.UserCertificateActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -13,11 +15,17 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SplashDisplayTimer splashDisplayTimer = new SplashDisplayTimer();
+        SplashDisplayTimer splashDisplayTimer = new SplashDisplayTimer(this);
         splashDisplayTimer.execute(1.5);
     }
 
     private class SplashDisplayTimer extends AsyncTask<Double, Void, Void>{
+        private AppCompatActivity activity;
+
+        public SplashDisplayTimer(AppCompatActivity activity){
+            this.activity = activity;
+        }
+
         @Override
         protected Void doInBackground(Double... params) {
             int timer = params[0].intValue();
@@ -37,11 +45,15 @@ public class SplashActivity extends AppCompatActivity {
             int AppStatus = splashInitialCheck.checkAppStatus();
             //if first time use this app
             if(AppStatus == splashInitialCheck.FIRST_USE){
-
+                Intent intent = new Intent(this.activity, UserCertificateActivity.class);
+                this.activity.startActivity(intent);
+                this.activity.finish();
             }
             //if user have not login
             else if(AppStatus == splashInitialCheck.UN_LOGIN){
-
+                Intent intent = new Intent(this.activity, UserCertificateActivity.class);
+                this.activity.startActivity(intent);
+                this.activity.finish();
             }
             //if user have login
             else if(AppStatus == splashInitialCheck.LOGIN){
