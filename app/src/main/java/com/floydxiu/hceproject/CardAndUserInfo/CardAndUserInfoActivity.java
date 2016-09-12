@@ -16,6 +16,9 @@ import com.floydxiu.hceproject.R;
 
 public class CardAndUserInfoActivity extends AppCompatActivity {
 
+    public enum CardAndUserInfoEnum{ CardList, UserInfo}
+    public static CardAndUserInfoEnum FragmentChoice = CardAndUserInfoEnum.CardList;//Params for save the state of fragment of this activity
+
     Toolbar toolbarCardAndUserInfo;
 
     @Override
@@ -23,10 +26,24 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.activity_cardanduserinfo);
 
+        setToolbars();
+    }
+
+    private void setToolbars(){
+
         //Toolbar setting
         toolbarCardAndUserInfo = (Toolbar) findViewById(R.id.toolbarCardAndUserInfo);
         toolbarCardAndUserInfo.setTitle(R.string.app_name);
+        //Set Menu item
         toolbarCardAndUserInfo.inflateMenu(R.menu.menu_cardlist);
+        //Clear Menu
+        toolbarCardAndUserInfo.getMenu().clear();
+        if(FragmentChoice == CardAndUserInfoEnum.CardList){
+            toolbarCardAndUserInfo.inflateMenu(R.menu.menu_cardlist);
+        }
+        else if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
+            toolbarCardAndUserInfo.inflateMenu(R.menu.menu_userinfo);
+        }
         //bind action on the item in menu
         toolbarCardAndUserInfo.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
@@ -39,6 +56,5 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 }

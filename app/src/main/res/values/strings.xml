@@ -3,4 +3,7 @@
     <string name="account">帳號</string>
     <string name="password">密碼</string>
     <string name="twicepassword">密碼確認</string>
+    <string name="about">關於</string>
+    <string name="Cards">卡片夾</string>
+    <string name="User">我</string>
 </resources>
