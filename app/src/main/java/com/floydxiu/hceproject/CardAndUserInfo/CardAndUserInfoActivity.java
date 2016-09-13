@@ -1,10 +1,14 @@
 package com.floydxiu.hceproject.CardAndUserInfo;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.GridLayout;
 
+import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
 import com.floydxiu.hceproject.R;
 
 /**
@@ -18,13 +22,27 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     public enum CardAndUserInfoEnum{ CardList, UserInfo}
     public static CardAndUserInfoEnum FragmentChoice = CardAndUserInfoEnum.CardList;//Params for save the state of fragment of this activity
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
     Toolbar toolbarCardAndUserInfo;
+    GridLayout containerCardAndUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardanduserinfo);
+
         setToolbars();
+        containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
+
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        CardListFragment cardListFragment = new CardListFragment();
+        fragmentTransaction.replace(R.id.containerCardAndUserInfo, cardListFragment);
+        fragmentTransaction.commit();
+
     }
 
     private void setToolbars(){
