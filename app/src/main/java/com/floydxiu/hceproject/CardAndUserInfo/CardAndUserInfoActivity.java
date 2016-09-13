@@ -1,7 +1,6 @@
 package com.floydxiu.hceproject.CardAndUserInfo;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -22,8 +21,8 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     Toolbar toolbarCardAndUserInfo;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardanduserinfo);
         setToolbars();
     }
@@ -33,12 +32,11 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         //Toolbar setting
         toolbarCardAndUserInfo = (Toolbar) findViewById(R.id.toolbarCardAndUserInfo);
         toolbarCardAndUserInfo.setTitle(R.string.app_name);
-        //Set Menu item
-        toolbarCardAndUserInfo.inflateMenu(R.menu.menu_cardlist);
         //Clear Menu
         toolbarCardAndUserInfo.getMenu().clear();
         if(FragmentChoice == CardAndUserInfoEnum.CardList){
             toolbarCardAndUserInfo.inflateMenu(R.menu.menu_cardlist);
+            //Attention to reference of app:showAsAction in menu xml, it can't be android:showAsAction QQ
         }
         else if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
             toolbarCardAndUserInfo.inflateMenu(R.menu.menu_userinfo);
