@@ -3,45 +3,146 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="2"/>
+
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="Member Card"
+            android:textSize="30dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:id="@+id/textView"
+            android:gravity="center"
+            android:layout_weight="1"/>
 
-        <FrameLayout
-            android:id="@+id/layoutUserCertificateFragment"
-            android:layout_width="match_parent"
+        <LinearLayout
             android:layout_height="0dp"
-            android:layout_weight="4">
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
 
-        </FrameLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edtFragmentLoginAccount"
+                android:layout_weight="1"
+                android:hint="@string/account" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:layout_gravity="center">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/edtFragmentLoginPwd"
+                android:layout_weight="1"
+                android:hint="@string/password"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4">
+            android:layout_weight="0.6"
+            android:layout_gravity="center">
 
             <Button
                 android:text="Login"
                 android:id="@+id/btnLogin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"/>
-
-            <Button
-                android:text="Sign Up"
-                android:id="@+id/btnSignup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+            <Button
+                android:text="Login with Facebook"
+                android:id="@+id/btnFBLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"/>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Forget password?"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/txvForgetPwd"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="Create your account"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/txvCreateAccount"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="2"/>
 
 </LinearLayout>
