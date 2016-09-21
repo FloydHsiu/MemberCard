@@ -3,11 +3,13 @@ package com.floydxiu.hceproject.UserCertificate;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.R;
 import com.floydxiu.hceproject.UserCertificate.UserCertificateFragment.LoginFragment;
 import com.floydxiu.hceproject.UserCertificate.UserCertificateFragment.SignUpFragment;
@@ -26,6 +28,8 @@ public class UserCertificateActivity extends AppCompatActivity {
 
     Button btnSignup, btnLogin;
 
+    Intent CardAndUserInfoIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,9 @@ public class UserCertificateActivity extends AppCompatActivity {
         btnSignup = (Button)findViewById(R.id.btnSignup);
         btnLogin = (Button)findViewById(R.id.btnLogin);
 
+        CardAndUserInfoIntent = new Intent();
+        CardAndUserInfoIntent.setClass(this, CardAndUserInfoActivity.class);
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +58,9 @@ public class UserCertificateActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.layoutUserCertificateFragment, signUpFragment, "SIGNUP");
                     fragmentTransaction.commit();
                 }
+
+                startActivity(CardAndUserInfoIntent);
+                finish();
             }
         });
 
