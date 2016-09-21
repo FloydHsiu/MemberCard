@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.UserInfoFragment;
 import com.floydxiu.hceproject.R;
 
 /**
@@ -27,6 +30,8 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 
     Toolbar toolbarCardAndUserInfo;
     GridLayout containerCardAndUserInfo;
+    Button btnCardList, btnUserInfo;
+//    FragmentTabHost tabhostCardAndUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +39,44 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cardanduserinfo);
 
         setToolbars();
+//        setFragmentTabHost();
         containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
 
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
-        CardListFragment cardListFragment = new CardListFragment();
-        fragmentTransaction.replace(R.id.containerCardAndUserInfo, cardListFragment);
+        fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
         fragmentTransaction.commit();
+
+        btnCardList = (Button) findViewById(R.id.btnCardList);
+        btnUserInfo = (Button) findViewById(R.id.btnUserInfo);
+
+        btnCardList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
+                    FragmentChoice = CardAndUserInfoEnum.CardList;
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
+                    fragmentTransaction.commit();
+
+                    setToolbars();
+                }
+            }
+        });
+
+        btnUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FragmentChoice == CardAndUserInfoEnum.CardList){
+                    FragmentChoice = CardAndUserInfoEnum.UserInfo;
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new UserInfoFragment());
+                    fragmentTransaction.commit();
+
+                    setToolbars();
+                }
+            }
+        });
 
     }
 
@@ -72,4 +107,22 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void setFragmentTabHost(){
+//        tabhostCardAndUserInfo = (FragmentTabHost) findViewById(R.id.tabhostCardAndUserInfo);
+//
+////        fragmentManager = getFragmentManager();
+////        fragmentTransaction = fragmentManager.beginTransaction();
+////
+////        CardListFragment cardListFragment = new CardListFragment();
+////        fragmentTransaction.add
+////        fragmentTransaction.commit();
+//        tabhostCardAndUserInfo.setup(this, getSupportFragmentManager(), R.id.tabcontent);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("value", "Card");
+//        tabhostCardAndUserInfo.addTab(tabhostCardAndUserInfo.newTabSpec("Card").setIndicator("Card"), CardListFragment.class, bundle);
+//        bundle = new Bundle();
+//        bundle.putString("value", "UserInfo");
+//        tabhostCardAndUserInfo.addTab(tabhostCardAndUserInfo.newTabSpec("UserInfo").setIndicator("UserInfo"), UserInfoFragment.class, bundle);
+//    }
 }

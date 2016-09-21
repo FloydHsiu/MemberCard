@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         SplashDisplayTimer splashDisplayTimer = new SplashDisplayTimer(this);
-        splashDisplayTimer.execute(1.5);
+        splashDisplayTimer.execute(2.5);
     }
 
     private class SplashDisplayTimer extends AsyncTask<Double, Void, Void>{

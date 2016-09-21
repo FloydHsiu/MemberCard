@@ -12,6 +12,34 @@
         android:id="@+id/toolbarCardAndUserInfo" />
 
 
+    <!--<view-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--class="android.support.v4.app.FragmentTabHost"-->
+        <!--android:id="@+id/tabhostCardAndUserInfo" >-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<TabWidget-->
+                <!--android:id="@+id/tabs"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:orientation="horizontal"/>-->
+
+            <!--<FrameLayout-->
+                <!--android:id="@+id/tabcontent"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="9.5"/>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</view>-->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -20,14 +48,15 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/containerCardAndUserInfo">
-
+            android:id="@+id/containerCardAndUserInfo"
+            android:layout_weight="9.5">
         </GridLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5">
 
             <Button
                 android:text="@string/Cards"
