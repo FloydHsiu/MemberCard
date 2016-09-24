@@ -45,30 +45,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/containerCardAndUserInfo"
-            android:layout_weight="9.5">
-        </GridLayout>
+            android:layout_height="0dp"
+            android:layout_weight="9">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/containerCardAndUserInfo">
+            </GridLayout>
+
+        </ScrollView>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <Button
                 android:text="@string/Cards"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/btnCardList"
                 android:layout_weight="1" />
 
             <Button
                 android:text="@string/User"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/btnUserInfo"
                 android:layout_weight="1" />
         </LinearLayout>

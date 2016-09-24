@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.UserInfoFragment;
@@ -32,6 +33,8 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     GridLayout containerCardAndUserInfo;
     Button btnCardList, btnUserInfo;
 //    FragmentTabHost tabhostCardAndUserInfo;
+
+    MenuItem itemCardListAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,7 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.itemCardListAdd:
                         //do something
+                        Toast.makeText(getApplicationContext(), "Add Cards", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
