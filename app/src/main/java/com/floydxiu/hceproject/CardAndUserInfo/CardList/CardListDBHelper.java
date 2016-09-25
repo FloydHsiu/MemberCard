@@ -21,20 +21,18 @@ public class CardListDBHelper extends SQLiteOpenHelper {
 
     public CardListDBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        dbCard = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        //dbCard = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        dbCard.execSQL("CREATE TABLE IF NOT EXISTS Cardlist(" +
-                "company int not null," +
-                "id int not null auto_increment," +
-                "primary key(id)," +
-                "cardid int not null," +
-                "expiredate int not null," +
-                "rank int not null" +
-                ")");
+        db.execSQL("CREATE TABLE IF NOT EXISTS CardList(" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+        "company INT NOT NULL," +
+        "cardid INT NOT NULL," +
+        "expiredate INT NOT NULL," +
+        "rank INT NOT NULL)");
+        dbCard = db;
     }
 
     @Override
@@ -45,11 +43,13 @@ public class CardListDBHelper extends SQLiteOpenHelper {
     public ArrayList<Card> query(){
         ArrayList<Card> allCards = new ArrayList<Card>();
         dbCard.beginTransaction();
-        Cursor queryalldata = dbCard.rawQuery("select * from CardList", null);
+        Cursor queryalldata = dbCard.rawQuery("select * from CardList;", null);
         if(queryalldata != null && queryalldata.getCount()>0){
             queryalldata.moveToFirst();
             for(int i=0; i<queryalldata.getCount(); i++){
+                System.out.println(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
                 allCards.add(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
+
                 queryalldata.moveToNext();
             }
         }
@@ -58,8 +58,8 @@ public class CardListDBHelper extends SQLiteOpenHelper {
     }
 
     public void insert(int company, int cardid, int expiredate, int rank){
-        dbCard.beginTransaction();
-        dbCard.execSQL("insert into CardList(company, cardid, expiredate, rank) values ("+company +"," + cardid + "," + expiredate + "," + rank + ")");
-        dbCard.endTransaction();
+        //dbCard.beginTransaction();
+        dbCard.execSQL("INSERT INTO CardList (company, cardid, expiredate, rank) VALUES ( "+company + "," + cardid + "," + expiredate + "," + rank + ")");
+        //dbCard.endTransaction();
     }
 }

@@ -44,7 +44,7 @@ public class CardListFragment extends Fragment {
         CardExpandableListAdapter cardAdapter = new CardExpandableListAdapter(getActivity());
         lvCard.setAdapter(cardAdapter);
 
-        setListViewHeightBasedOnChildren(lvCard);
+        //setListViewHeightBasedOnChildren(lvCard);
 
         return v;
     }

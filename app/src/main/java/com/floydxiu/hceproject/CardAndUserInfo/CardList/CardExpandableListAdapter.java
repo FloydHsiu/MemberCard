@@ -27,23 +27,24 @@ public class CardExpandableListAdapter extends BaseExpandableListAdapter{
     public CardExpandableListAdapter(Context context){
         this.context = context;
         dbCardList = new CardListDBHelper(context);
-        dbCardList.insert(12,33333,14123212,0);
+        dbCardList.onCreate(context.openOrCreateDatabase("Cardlist.db", Context.MODE_PRIVATE, null));
+        //dbCardList.insert(12,33333,14123212,0);
         cards = dbCardList.query();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return null;
+        return cards.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return 0;
+        return cards.size();
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition;
     }
 
     @Override
@@ -52,13 +53,12 @@ public class CardExpandableListAdapter extends BaseExpandableListAdapter{
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.listview_cardheader, null);
         TextView txvCardHeader = (TextView) linearLayout.findViewById(R.id.txvCardHeader);
         txvCardHeader.setText(cards.get(groupPosition).getCompany());
-
         return  linearLayout;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return null;
+        return cards.get(groupPosition);
     }
 
     @Override
@@ -91,11 +91,11 @@ public class CardExpandableListAdapter extends BaseExpandableListAdapter{
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 }

@@ -45,18 +45,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="9">-->
+
+            <!--<GridLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:id="@+id/containerCardAndUserInfo">-->
+            <!--</GridLayout>-->
+
+        <!--</ScrollView>-->
+
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9">
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/containerCardAndUserInfo">
-            </GridLayout>
-
-        </ScrollView>
+            android:layout_weight="9"
+            android:id="@+id/containerCardAndUserInfo">
+        </GridLayout>
 
         <LinearLayout
             android:orientation="horizontal"
