@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/imgCompany"
+            android:layout_weight="1.5"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6">
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/txvHeaderCompany"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txvHeaderCardId"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="textEnd"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.5"
+            android:id="@+id/layoutbtnDetails"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_expand_more_black_24dp"
+                android:id="@+id/imgMore"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutDetails"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible">
+
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+    </LinearLayout>
+
+
+</LinearLayout>

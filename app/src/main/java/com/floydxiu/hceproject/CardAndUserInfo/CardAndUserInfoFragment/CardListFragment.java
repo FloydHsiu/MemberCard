@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.Card;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardExpandableListAdapter;
+import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListAdapter;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;
@@ -22,9 +22,10 @@ import java.util.ArrayList;
 public class CardListFragment extends Fragment {
 
     public enum CARD_LIST_TYPE_ENUM { GRID, LINEAR_VERITCAL }
-    public CARD_LIST_TYPE_ENUM cardlist_type = CARD_LIST_TYPE_ENUM.LINEAR_VERITCAL;
+    public CARD_LIST_TYPE_ENUM cardlit_type = CARD_LIST_TYPE_ENUM.LINEAR_VERITCAL;
 
-    private ExpandableListView lvCard;
+    //private ExpandableListView lvCard;
+    private ListView lvCard;
     private ArrayList<Card> cards;
 
 
@@ -32,7 +33,8 @@ public class CardListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cardlist, container, false);
 
-        lvCard = (ExpandableListView) v.findViewById(R.id.lvCard);
+        //lvCard = (ExpandableListView) v.findViewById(lvCard);
+        lvCard = (ListView) v.findViewById(R.id.lvCard);
 
         cards = new ArrayList<Card>();
         cards.add(new Card("AAA", 0, 100, 0));
@@ -42,7 +44,9 @@ public class CardListFragment extends Fragment {
         cards.add(new Card("AAA", 0, 100, 0));
 
         CardExpandableListAdapter cardAdapter = new CardExpandableListAdapter(getActivity());
-        lvCard.setAdapter(cardAdapter);
+        //lvCard.setAdapter(cardAdapter);
+        CardListAdapter cardListAdapter = new CardListAdapter(getActivity(), R.id.lvCard, cards);
+        lvCard.setAdapter(cardListAdapter);
 
         //setListViewHeightBasedOnChildren(lvCard);
 
