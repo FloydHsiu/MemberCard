@@ -26,7 +26,7 @@ public class CardListFragment extends Fragment {
 
     //private ExpandableListView lvCard;
     private ListView lvCard;
-    private ArrayList<Card> cards;
+    public ArrayList<Card> cards;
 
 
     @Override
