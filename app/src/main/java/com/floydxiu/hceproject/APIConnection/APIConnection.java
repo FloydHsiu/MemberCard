@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -68,16 +69,17 @@ public class APIConnection {
 
                     //Keep Session in Preference
                     if (loginState== true){
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("AppSetting", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt(SplashInitialCheck.PreferenceKey, SplashInitialCheck.LOGIN);
                         editor.putString("Session", sessions.get(0));
                         editor.apply();
                     }
                     else{
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("AppSetting", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt(SplashInitialCheck.PreferenceKey, SplashInitialCheck.UN_LOGIN);
+                        editor.putString("Session", "");
                         editor.apply();
                     }
                 } catch (MalformedURLException e) {
@@ -94,6 +96,14 @@ public class APIConnection {
         loginTask.execute(acc, pwd);
     }
 
+    public void logout(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SplashInitialCheck.PreferenceKey, SplashInitialCheck.UN_LOGIN);
+        editor.putString("Session", "");
+        editor.apply();
+    }
+
     //Use to check "if the device has connect to network."
     public boolean checkNetworkState(){
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -106,8 +116,20 @@ public class APIConnection {
         }
     }
 
+    private void setHTTPConnection(HttpURLConnection httpconn, String method, Boolean input, Boolean output){
+        httpconn.setConnectTimeout(1500);
+        httpconn.setReadTimeout(1500);
+        httpconn.setDoInput(input);
+        httpconn.setDoOutput(output);
+        try {
+            httpconn.setRequestMethod(method);
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+    }
+
     //read all the data in the InputStream
-    public String readAll(InputStream stream) throws IOException, UnsupportedEncodingException {
+    private String readAll(InputStream stream) throws IOException, UnsupportedEncodingException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;

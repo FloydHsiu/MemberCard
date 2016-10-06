@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             //Direct App into true user interactive interface
-            SplashInitialCheck splashInitialCheck = new SplashInitialCheck(getSharedPreferences("AppSetting", MODE_PRIVATE));
+            SplashInitialCheck splashInitialCheck = new SplashInitialCheck(getSharedPreferences(SplashInitialCheck.PreferenceName, MODE_PRIVATE));
             int AppStatus = splashInitialCheck.checkAppStatus();
             //if first time use this app
             if(AppStatus == splashInitialCheck.FIRST_USE){

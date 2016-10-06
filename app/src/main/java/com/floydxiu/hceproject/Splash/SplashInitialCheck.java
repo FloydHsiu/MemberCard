@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
  */
 
 public class SplashInitialCheck {
+    public static String PreferenceName = "AppSetting";
     //Use SharedPreferences To Save Normal App Status
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
