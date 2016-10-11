@@ -1,19 +1,26 @@
 package com.floydxiu.hceproject.CardAndUserInfo;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.UserInfoFragment;
 import com.floydxiu.hceproject.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Floyd on 2016/9/10.
@@ -36,12 +43,15 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 
     MenuItem itemCardListAdd;
 
+    AlertDialog dialogAdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardanduserinfo);
 
         setToolbars();
+        //setAddDialog();
 //        setFragmentTabHost();
         containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
 
@@ -104,12 +114,34 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.itemCardListAdd:
                         //do something
+                        setAddDialog();
                         Toast.makeText(getApplicationContext(), "Add Cards", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
             }
         });
+    }
+
+    private void setAddDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View linearLayout = inflater.inflate(R.layout.dialog_add, null);
+        Spinner spinnerAddCompany = (Spinner) linearLayout.findViewById(R.id.spinnerAddCompany);
+        EditText edtAddCardId = (EditText) linearLayout.findViewById(R.id.edtAddCardId);
+        Button btnAddConfirm = (Button) linearLayout.findViewById(R.id.btnAddConfirm);
+        Button btnAddCancel = (Button) linearLayout.findViewById(R.id.btnAddCancel);
+
+        //Set Spinner Adapter
+        ArrayList<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CardAndUserInfoActivity.this, android.R.layout.simple_spinner_item, list);
+        spinnerAddCompany.setAdapter(arrayAdapter);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CardAndUserInfoActivity.this);
+        builder.setView(linearLayout);
+        builder.create().show();
     }
 
 //    private void setFragmentTabHost(){
