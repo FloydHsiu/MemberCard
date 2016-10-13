@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
+import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.R;
 
 /**
@@ -19,6 +20,8 @@ public class UserCertificateActivity extends AppCompatActivity {
 
     Button btnLogin;
 
+    TextView edtFragmentLoginAccount, edtFragmentLoginPwd;
+
     Intent CardAndUserInfoIntent;
 
     @Override
@@ -28,15 +31,17 @@ public class UserCertificateActivity extends AppCompatActivity {
 
         //Button binding
         btnLogin = (Button)findViewById(R.id.btnLogin);
+        edtFragmentLoginAccount = (TextView) findViewById(R.id.edtFragmentLoginAccount);
+        edtFragmentLoginPwd = (TextView) findViewById(R.id.edtFragmentLoginPwd);
 
-        CardAndUserInfoIntent = new Intent();
-        CardAndUserInfoIntent.setClass(this, CardAndUserInfoActivity.class);
+        final APIConnection apiConnection = new APIConnection(UserCertificateActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CardAndUserInfoIntent);
-                finish();
+                if(apiConnection.checkNetworkState()){
+                    apiConnection.login(edtFragmentLoginAccount.getText().toString(), edtFragmentLoginPwd.getText().toString());
+                }
             }
         });
 
