@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -44,13 +46,15 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     MenuItem itemCardListAdd;
 
     AlertDialog dialogAdd;
+    NavigationView navUser;
+    DrawerLayout drawerCardAndUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardanduserinfo);
-
         setToolbars();
+
         //setAddDialog();
 //        setFragmentTabHost();
         containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
@@ -59,6 +63,12 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
         fragmentTransaction.commit();
+
+        //Set up navigation drawer
+        drawerCardAndUserInfo = (DrawerLayout) findViewById(R.id.drawerCardAndUserInfo);
+        navUser = (NavigationView) findViewById(R.id.navUser);
+        setupDrawerContent(navUser);
+        drawerCardAndUserInfo.closeDrawers();
 
         btnCardList = (Button) findViewById(R.id.btnCardList);
         btnUserInfo = (Button) findViewById(R.id.btnUserInfo);
@@ -142,6 +152,23 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(CardAndUserInfoActivity.this);
         builder.setView(linearLayout);
         builder.create().show();
+    }
+
+    private void setupDrawerContent(NavigationView navigationView)
+    {
+        navigationView.setNavigationItemSelectedListener(
+
+                new NavigationView.OnNavigationItemSelectedListener()
+                {
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem)
+                    {
+                        menuItem.setChecked(true);
+                        drawerCardAndUserInfo.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
 //    private void setFragmentTabHost(){
