@@ -67,21 +67,22 @@
 
             <!--</ScrollView>-->
 
-            <android.support.design.widget.NavigationView
-                android:id="@+id/navigation_view"
-                android:layout_width="240dp"
-                android:layout_gravity="left|start"
-                android:fitsSystemWindows="true"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                app:menu="@menu/menu_usernavigation"
-                />
-
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="9"
                 android:id="@+id/containerCardAndUserInfo">
+
+                <!--<android.support.design.widget.NavigationView-->
+                    <!--android:id="@+id/navigation_view"-->
+                    <!--android:layout_width="240dp"-->
+                    <!--android:layout_gravity="left|start"-->
+                    <!--android:fitsSystemWindows="true"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="#ffffff"-->
+                    <!--app:menu="@menu/menu_usernavigation"-->
+                    <!--/>-->
+
             </GridLayout>
 
             <LinearLayout

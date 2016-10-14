@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
@@ -110,6 +111,7 @@ public class APIConnection {
                     Intent intent = new Intent();
                     intent.setClass(context, CardAndUserInfoActivity.class);
                     context.startActivity(intent);
+                    ((AppCompatActivity)context).finish();
                 }
                 else{
                     Toast.makeText(context, "Id or Password error!", Toast.LENGTH_SHORT).show();
