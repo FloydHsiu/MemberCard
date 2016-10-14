@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.Splash.SplashInitialCheck;
+import com.floydxiu.hceproject.UserCertificate.UserCertificateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +38,7 @@ public class APIConnection {
     public static String SERVER_ADDR = "http://218.161.0.65/HCEprojectAPI/";
     private static String LOGIN_ADDR = SERVER_ADDR + "index.php";
     private static String IS_LOGIN_STATE_ADDR = SERVER_ADDR + "IsLoginState.php";
+    private static String CREATE_ACCOUNT_ADDR = SERVER_ADDR + "createAccount.php";
 
     public APIConnection(Context context){
         this.context = context;
@@ -116,6 +118,61 @@ public class APIConnection {
         }
         LoginTask loginTask = new LoginTask();
         loginTask.execute(acc, pwd);
+    }
+
+    public void createAccount(String acc, String pwd)
+    {
+        class createAccountTask extends AsyncTask<String, Void, Boolean>{
+            @Override
+            protected Boolean doInBackground(String... params) {
+                try {
+                    URL url = new URL(CREATE_ACCOUNT_ADDR);
+                    HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+                    httpconn.setConnectTimeout(1500);
+                    httpconn.setReadTimeout(1500);
+                    httpconn.setDoInput(true);
+                    httpconn.setDoOutput(true);
+                    httpconn.setRequestMethod("POST");
+                    /* !!!!!!!!!!! */
+                    String request_data = "ACC=" + params[0] + "&PWD=" + params[1];
+                    OutputStream os = httpconn.getOutputStream();
+                    os.write(request_data.getBytes());
+                    os.close();
+                    httpconn.connect();
+
+                    //Get Response data
+                    InputStream is = httpconn.getInputStream();
+                    String response_data = readAll(is);
+                    JSONObject responseJSON = new JSONObject(response_data);
+                    /* !!!!!!!!!!! */
+                    boolean createAccountState = responseJSON.getBoolean("valid");
+                    return createAccountState;
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if(aBoolean == true){
+                    Intent intent = new Intent();
+                    intent.setClass(context, UserCertificateActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context, "Create Account Success!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(context, "This Account Id Has Existed", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        createAccountTask createAccountTask = new createAccountTask();
+        createAccountTask.execute(acc, pwd);
     }
 
     public void getUserData(){

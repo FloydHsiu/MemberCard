@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
@@ -20,7 +21,9 @@ public class UserCertificateActivity extends AppCompatActivity {
 
     Button btnLogin;
 
-    TextView edtFragmentLoginAccount, edtFragmentLoginPwd;
+    EditText edtFragmentLoginAccount, edtFragmentLoginPwd;
+
+    TextView txvCreateAccount;
 
     Intent CardAndUserInfoIntent;
 
@@ -31,8 +34,9 @@ public class UserCertificateActivity extends AppCompatActivity {
 
         //Button binding
         btnLogin = (Button)findViewById(R.id.btnLogin);
-        edtFragmentLoginAccount = (TextView) findViewById(R.id.edtFragmentLoginAccount);
-        edtFragmentLoginPwd = (TextView) findViewById(R.id.edtFragmentLoginPwd);
+        edtFragmentLoginAccount = (EditText) findViewById(R.id.edtFragmentLoginAccount);
+        edtFragmentLoginPwd = (EditText) findViewById(R.id.edtFragmentLoginPwd);
+        txvCreateAccount = (TextView) findViewById(R.id.txvCreateAccount);
 
         final APIConnection apiConnection = new APIConnection(UserCertificateActivity.this);
 
@@ -42,6 +46,15 @@ public class UserCertificateActivity extends AppCompatActivity {
                 if(apiConnection.checkNetworkState()){
                     apiConnection.login(edtFragmentLoginAccount.getText().toString(), edtFragmentLoginPwd.getText().toString());
                 }
+            }
+        });
+
+        txvCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(UserCertificateActivity.this, CreateAccountActivity.class);
+                startActivity(intent);
             }
         });
 
