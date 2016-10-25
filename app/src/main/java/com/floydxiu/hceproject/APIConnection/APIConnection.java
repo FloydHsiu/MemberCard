@@ -227,6 +227,42 @@ public class APIConnection {
         editor.apply();
     }
 
+    public boolean checkSessionIsLogin(){
+        if(checkNetworkState()) {
+            try {
+                URL url = new URL(SERVER_ADDR+"valid.php");
+                HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+                httpconn.setConnectTimeout(1500);
+                httpconn.setReadTimeout(1500);
+                httpconn.setDoInput(true);
+                httpconn.setDoOutput(true);
+                httpconn.setRequestMethod("GET");
+
+                SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
+                String session = sharedPreferences.getString("Session", "");
+                httpconn.setRequestProperty("Cookie", session);
+
+                httpconn.connect();
+
+                //Get Response data
+                InputStream is = httpconn.getInputStream();
+                String response_data = readAll(is);
+                JSONObject responseJSON = new JSONObject(response_data);
+
+                return responseJSON.getBoolean("valid");
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        return false;
+    }
+
     //Use to check "if the device has connect to network."
     public boolean checkNetworkState(){
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  * Whether it is "First Time Open" or "Not Login" or "Login"
  */
 
-public class SplashInitialCheck {
+public class SplashInitialCheck{
     public static String PreferenceName = "AppSetting";
     //Use SharedPreferences To Save Normal App Status
     private SharedPreferences sharedPreferences;
@@ -40,7 +40,8 @@ public class SplashInitialCheck {
         {
             return this.UN_LOGIN;
         }
-        else if(AppStatus == this.LOGIN) {
+        else if(AppStatus == this.LOGIN)
+        {
             return this.LOGIN;
         }
         //Exception
