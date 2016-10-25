@@ -72,6 +72,7 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPostExecute(Intent nextIntent) {
             super.onPostExecute(nextIntent);
             this.activity.startActivity(nextIntent);
+            this.activity.finish();
         }
     }
 }
