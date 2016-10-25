@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.UserInfoFragment;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;
@@ -67,39 +67,37 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         //Set up navigation drawer
         drawerCardAndUserInfo = (DrawerLayout) findViewById(R.id.drawerCardAndUserInfo);
         navUser = (NavigationView) findViewById(R.id.navUser);
-        setupDrawerContent(navUser);
-        drawerCardAndUserInfo.closeDrawers();
 
-        btnCardList = (Button) findViewById(R.id.btnCardList);
-        btnUserInfo = (Button) findViewById(R.id.btnUserInfo);
-
-        btnCardList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
-                    FragmentChoice = CardAndUserInfoEnum.CardList;
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
-                    fragmentTransaction.commit();
-
-                    setToolbars();
-                }
-            }
-        });
-
-        btnUserInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FragmentChoice == CardAndUserInfoEnum.CardList){
-                    FragmentChoice = CardAndUserInfoEnum.UserInfo;
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new UserInfoFragment());
-                    fragmentTransaction.commit();
-
-                    setToolbars();
-                }
-            }
-        });
+//        btnCardList = (Button) findViewById(R.id.btnCardList);
+//        btnUserInfo = (Button) findViewById(R.id.btnUserInfo);
+//
+//        btnCardList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
+//                    FragmentChoice = CardAndUserInfoEnum.CardList;
+//                    fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
+//                    fragmentTransaction.commit();
+//
+//                    setToolbars();
+//                }
+//            }
+//        });
+//
+//        btnUserInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(FragmentChoice == CardAndUserInfoEnum.CardList){
+//                    FragmentChoice = CardAndUserInfoEnum.UserInfo;
+//                    fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new UserInfoFragment());
+//                    fragmentTransaction.commit();
+//
+//                    setToolbars();
+//                }
+//            }
+//        });
 
     }
 
@@ -129,6 +127,18 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+        toolbarCardAndUserInfo.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbarCardAndUserInfo.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(drawerCardAndUserInfo.isDrawerOpen(Gravity.LEFT)){
+                    drawerCardAndUserInfo.closeDrawer(Gravity.LEFT);
+                }
+                else{
+                    drawerCardAndUserInfo.openDrawer(Gravity.LEFT);
+                }
             }
         });
     }
