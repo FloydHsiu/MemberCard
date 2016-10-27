@@ -131,6 +131,7 @@
             android:layout_gravity="left"
             android:fitsSystemWindows="true"
             app:menu="@menu/menu_usernavigation"
+            app:headerLayout="@layout/navigationheader_cardanduserinfoactivity"
             />
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
