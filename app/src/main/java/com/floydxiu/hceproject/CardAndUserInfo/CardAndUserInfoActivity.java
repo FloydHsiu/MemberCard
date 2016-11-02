@@ -3,6 +3,8 @@ package com.floydxiu.hceproject.CardAndUserInfo;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.floydxiu.hceproject.AddCardActivity.AddCardActivity;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
 import com.floydxiu.hceproject.R;
 
@@ -55,7 +58,6 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cardanduserinfo);
         setToolbars();
 
-        //setAddDialog();
 //        setFragmentTabHost();
         containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
 
@@ -67,37 +69,6 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         //Set up navigation drawer
         drawerCardAndUserInfo = (DrawerLayout) findViewById(R.id.drawerCardAndUserInfo);
         navUser = (NavigationView) findViewById(R.id.navUser);
-
-//        btnCardList = (Button) findViewById(R.id.btnCardList);
-//        btnUserInfo = (Button) findViewById(R.id.btnUserInfo);
-//
-//        btnCardList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(FragmentChoice == CardAndUserInfoEnum.UserInfo){
-//                    FragmentChoice = CardAndUserInfoEnum.CardList;
-//                    fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
-//                    fragmentTransaction.commit();
-//
-//                    setToolbars();
-//                }
-//            }
-//        });
-//
-//        btnUserInfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(FragmentChoice == CardAndUserInfoEnum.CardList){
-//                    FragmentChoice = CardAndUserInfoEnum.UserInfo;
-//                    fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.containerCardAndUserInfo, new UserInfoFragment());
-//                    fragmentTransaction.commit();
-//
-//                    setToolbars();
-//                }
-//            }
-//        });
 
     }
 
@@ -122,7 +93,10 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.itemCardListAdd:
                         //do something
-                        setAddDialog();
+                        //setAddDialog();
+                        Intent intent = new Intent();
+                        intent.setClass(CardAndUserInfoActivity.this, AddCardActivity.class);
+                        startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Add Cards", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -148,8 +122,6 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         View linearLayout = inflater.inflate(R.layout.dialog_add, null);
         Spinner spinnerAddCompany = (Spinner) linearLayout.findViewById(R.id.spinnerAddCompany);
         EditText edtAddCardId = (EditText) linearLayout.findViewById(R.id.edtAddCardId);
-        Button btnAddConfirm = (Button) linearLayout.findViewById(R.id.btnAddConfirm);
-        Button btnAddCancel = (Button) linearLayout.findViewById(R.id.btnAddCancel);
 
         //Set Spinner Adapter
         ArrayList<String> list = new ArrayList<>();
@@ -161,6 +133,19 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CardAndUserInfoActivity.this);
         builder.setView(linearLayout);
+        builder.setTitle(R.string.AddNewCard);
+        builder.setPositiveButton(R.string.Add, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
         builder.create().show();
     }
 

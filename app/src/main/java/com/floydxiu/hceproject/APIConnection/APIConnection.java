@@ -13,6 +13,7 @@ import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.Splash.SplashInitialCheck;
 import com.floydxiu.hceproject.UserCertificate.UserCertificateActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,14 +37,16 @@ public class APIConnection {
 
     Context context;
     /* !!!!!!!!!!!! */
-    public static String SERVER_ADDR = "http://218.161.0.65/HCEprojectAPI/";
-    private static String LOGIN_ADDR = SERVER_ADDR + "index.php";
-    private static String IS_LOGIN_STATE_ADDR = SERVER_ADDR + "IsLoginState.php";
-    private static String CREATE_ACCOUNT_ADDR = SERVER_ADDR + "createAccount.php";
+    public static String SERVER_CLIENT_ADDR = "http://218.161.0.65/HCEprojectAPI/Client/";
+    private static String LOGIN_ADDR = SERVER_CLIENT_ADDR + "login.php";
+    private static String IS_LOGIN_STATE_ADDR = SERVER_CLIENT_ADDR + "IsLoginState.php";
+    private static String CREATE_ACCOUNT_ADDR = SERVER_CLIENT_ADDR + "createAccount.php";
 
     public APIConnection(Context context){
         this.context = context;
     }
+
+    /**  Account API **/
 
     public void login(String acc, String pwd){
         class LoginTask extends AsyncTask<String, Void, Boolean>{
@@ -182,7 +185,7 @@ public class APIConnection {
             @Override
             protected String doInBackground(Void... params) {
                 try {
-                    URL url = new URL(SERVER_ADDR+"valid.php");
+                    URL url = new URL(SERVER_CLIENT_ADDR +"valid.php");
                     HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
                     httpconn.setConnectTimeout(1500);
                     httpconn.setReadTimeout(1500);
@@ -230,7 +233,7 @@ public class APIConnection {
     public boolean checkSessionIsLogin(){
         if(checkNetworkState()) {
             try {
-                URL url = new URL(SERVER_ADDR+"valid.php");
+                URL url = new URL(SERVER_CLIENT_ADDR +"valid.php");
                 HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
                 httpconn.setConnectTimeout(1500);
                 httpconn.setReadTimeout(1500);
@@ -261,6 +264,48 @@ public class APIConnection {
             return false;
         }
         return false;
+    }
+
+
+    /**  CardList API **/
+
+    public boolean addNewCard(){
+        return false;
+    }
+
+    public JSONArray getCardList() {
+
+        try {
+            URL url = new URL(LOGIN_ADDR);
+            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+            httpconn.setConnectTimeout(1500);
+            httpconn.setReadTimeout(1500);
+            httpconn.setDoInput(true);
+            httpconn.setDoOutput(false);
+            httpconn.setRequestMethod("GET");
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
+            String session = sharedPreferences.getString("Session", "");
+            httpconn.setRequestProperty("Cookie", session);
+
+            httpconn.connect();
+
+            //Get Response data
+            InputStream is = httpconn.getInputStream();
+            String response_data = readAll(is);
+            JSONObject responseJSON = new JSONObject(response_data);
+
+            return responseJSON.getJSONArray("CardList");
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     //Use to check "if the device has connect to network."

@@ -6,4 +6,8 @@
     <string name="about">關於</string>
     <string name="Cards">卡片夾</string>
     <string name="User">我</string>
+    <string name="Cancel">取消</string>
+    <string name="Add">新增</string>
+    <string name="AddNewCard">添加新的卡片</string>
+    <string name="choseCardCompany">選擇發卡公司</string>
 </resources>
