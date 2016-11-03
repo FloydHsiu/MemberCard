@@ -47,8 +47,8 @@ public class CardListDBHelper extends SQLiteOpenHelper {
         if(queryalldata != null && queryalldata.getCount()>0){
             queryalldata.moveToFirst();
             for(int i=0; i<queryalldata.getCount(); i++){
-                System.out.println(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
-                allCards.add(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
+//                System.out.println(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
+//                allCards.add(new Card(""+queryalldata.getInt(0), queryalldata.getInt(1), queryalldata.getInt(2), queryalldata.getInt(3)));
 
                 queryalldata.moveToNext();
             }

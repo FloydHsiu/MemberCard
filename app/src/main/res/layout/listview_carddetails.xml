@@ -17,18 +17,18 @@
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txvId" />
+        android:id="@+id/txvCardNum" />
 
     <TextView
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txvExpiredate" />
+        android:id="@+id/txvExpireTime" />
 
     <TextView
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txvRank" />
+        android:id="@+id/txvCardLevel" />
 
 </LinearLayout>

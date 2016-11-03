@@ -6,31 +6,38 @@ package com.floydxiu.hceproject.CardAndUserInfo.CardList;
 
 public class Card {
 
-    private String company;
-    private int id;
-    private long expiredate;
-    private int rank;
+    private int ComId;
+    private String ComName;
+    private int CardNum;
+    private String  ExpireTime;
+    private String CardLevel;
+    private String CardType;
 
-    public Card(String company, int id, long expiredate, int rank){
-        this.company = company;
-        this.id = id;
-        this.expiredate = expiredate;
-        this.rank = rank;
+
+    public Card(int ComId, String ComName, int CardNum, String CardType, String ExpireTime, String CardLevel){
+        this.ComId = ComId;
+        this.ComName = ComName;
+        this.CardNum = CardNum;
+        this.ExpireTime = ExpireTime;
+        this.CardType = CardType;
+        this.CardLevel = CardLevel;
     }
 
-    public String getCompany(){
-        return this.company;
+    public String getComName(){
+        return this.ComName;
     }
 
-    public int getId(){
-        return this.id;
+    public int getCardNum(){
+        return this.CardNum;
     }
 
-    public long getExpiredate(){
-        return this.expiredate;
+    public String getExpireTime(){
+        return this.ExpireTime;
     }
 
-    public int getRank(){
-        return this.rank;
+    public String getCardLevel(){
+        return this.CardLevel;
     }
+
+    public String getCardType() { return this.CardType;}
 }

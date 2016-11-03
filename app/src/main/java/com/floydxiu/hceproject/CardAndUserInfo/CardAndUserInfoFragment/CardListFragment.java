@@ -26,7 +26,11 @@ public class CardListFragment extends Fragment {
 
     //private ExpandableListView lvCard;
     private ListView lvCard;
-    public ArrayList<Card> cards;
+    public ArrayList<Card> CardList = null;
+
+    public void setCardList(ArrayList<Card> CardList){
+        this.CardList = CardList;
+    }
 
 
     @Override
@@ -36,17 +40,12 @@ public class CardListFragment extends Fragment {
         //lvCard = (ExpandableListView) v.findViewById(lvCard);
         lvCard = (ListView) v.findViewById(R.id.lvCard);
 
-        cards = new ArrayList<Card>();
-        cards.add(new Card("AAA", 0, 100, 0));
-        cards.add(new Card("AAA", 0, 100, 0));
-        cards.add(new Card("AAA", 0, 100, 0));
-        cards.add(new Card("AAA", 0, 100, 0));
-        cards.add(new Card("AAA", 0, 100, 0));
-
         CardExpandableListAdapter cardAdapter = new CardExpandableListAdapter(getActivity());
         //lvCard.setAdapter(cardAdapter);
-        CardListAdapter cardListAdapter = new CardListAdapter(getActivity(), R.id.lvCard, cards);
-        lvCard.setAdapter(cardListAdapter);
+        if(CardList != null){
+            CardListAdapter cardListAdapter = new CardListAdapter(getActivity(), R.id.lvCard, CardList);
+            lvCard.setAdapter(cardListAdapter);
+        }
 
         //setListViewHeightBasedOnChildren(lvCard);
 

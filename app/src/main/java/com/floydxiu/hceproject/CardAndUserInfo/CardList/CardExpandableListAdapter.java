@@ -52,7 +52,7 @@ public class CardExpandableListAdapter extends BaseExpandableListAdapter{
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.listview_cardheader, null);
         TextView txvCardHeader = (TextView) linearLayout.findViewById(R.id.txvCardHeader);
-        txvCardHeader.setText(cards.get(groupPosition).getCompany());
+        txvCardHeader.setText(cards.get(groupPosition).getComName());
         return  linearLayout;
     }
 
@@ -76,15 +76,15 @@ public class CardExpandableListAdapter extends BaseExpandableListAdapter{
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.listview_carddetails, null);
         TextView txvCompany = (TextView) linearLayout.findViewById(R.id.txvCompany);
-        TextView txvId = (TextView) linearLayout.findViewById(R.id.txvId);
-        TextView txvExpiredate = (TextView) linearLayout.findViewById(R.id.txvExpiredate);
-        TextView txvRank = (TextView) linearLayout.findViewById(R.id.txvRank);
+        TextView txvId = (TextView) linearLayout.findViewById(R.id.txvCardNum);
+        TextView txvExpiredate = (TextView) linearLayout.findViewById(R.id.txvExpireTime);
+        TextView txvRank = (TextView) linearLayout.findViewById(R.id.txvCardLevel);
 
         Card card = cards.get(groupPosition);
-        txvCompany.setText(card.getCompany());
-        txvId.setText(""+card.getId());
-        txvExpiredate.setText(""+card.getExpiredate());
-        txvRank.setText(""+card.getRank());
+        txvCompany.setText(card.getComName());
+        txvId.setText(""+card.getCardNum());
+        txvExpiredate.setText(""+card.getExpireTime());
+        txvRank.setText(""+card.getCardLevel());
 
         return linearLayout;
     }

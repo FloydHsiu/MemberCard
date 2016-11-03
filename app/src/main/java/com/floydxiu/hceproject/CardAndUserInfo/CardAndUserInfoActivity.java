@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.AddCardActivity.AddCardActivity;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;
@@ -61,14 +61,17 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 //        setFragmentTabHost();
         containerCardAndUserInfo = (GridLayout) findViewById(R.id.containerCardAndUserInfo);
 
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
-        fragmentTransaction.commit();
+//        fragmentManager = getFragmentManager();
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.containerCardAndUserInfo, new CardListFragment());
+//        fragmentTransaction.commit();
 
         //Set up navigation drawer
         drawerCardAndUserInfo = (DrawerLayout) findViewById(R.id.drawerCardAndUserInfo);
         navUser = (NavigationView) findViewById(R.id.navUser);
+
+        CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
+        cardListSync.download();
 
     }
 

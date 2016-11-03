@@ -41,6 +41,8 @@ public class APIConnection {
     private static String LOGIN_ADDR = SERVER_CLIENT_ADDR + "login.php";
     private static String IS_LOGIN_STATE_ADDR = SERVER_CLIENT_ADDR + "IsLoginState.php";
     private static String CREATE_ACCOUNT_ADDR = SERVER_CLIENT_ADDR + "createAccount.php";
+    private static String GET_CARDLSIT = SERVER_CLIENT_ADDR + "getCardList.php";
+    private static String GET_COMPANYLIST = SERVER_CLIENT_ADDR + "getCompanyList.php";
 
     public APIConnection(Context context){
         this.context = context;
@@ -276,7 +278,7 @@ public class APIConnection {
     public JSONArray getCardList() {
 
         try {
-            URL url = new URL(LOGIN_ADDR);
+            URL url = new URL(GET_CARDLSIT);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
             httpconn.setConnectTimeout(1500);
             httpconn.setReadTimeout(1500);
@@ -295,7 +297,53 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
 
-            return responseJSON.getJSONArray("CardList");
+            if("success".equals(responseJSON.getString("state"))){
+                return responseJSON.getJSONArray("CardList");
+            }
+            else{
+                return null;
+            }
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /** Company List **/
+
+    public JSONObject getCompanyLsit(){
+        try {
+            URL url = new URL(GET_COMPANYLIST);
+            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+            httpconn.setConnectTimeout(1500);
+            httpconn.setReadTimeout(1500);
+            httpconn.setDoInput(true);
+            httpconn.setDoOutput(false);
+            httpconn.setRequestMethod("GET");
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
+            String session = sharedPreferences.getString("Session", "");
+            httpconn.setRequestProperty("Cookie", session);
+
+            httpconn.connect();
+
+            //Get Response data
+            InputStream is = httpconn.getInputStream();
+            String response_data = readAll(is);
+            JSONObject responseJSON = new JSONObject(response_data);
+
+            if("success".equals(responseJSON.getString("state"))){
+                return responseJSON.getJSONObject("CompanyList");
+            }
+            else{
+                return null;
+            }
 
         }catch (MalformedURLException e) {
             e.printStackTrace();
