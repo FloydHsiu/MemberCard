@@ -6,8 +6,13 @@
     <string name="about">關於</string>
     <string name="Cards">卡片夾</string>
     <string name="User">我</string>
+    <string name="confirm">確認</string>
     <string name="Cancel">取消</string>
     <string name="Add">新增</string>
     <string name="AddNewCard">添加新的卡片</string>
     <string name="choseCardCompany">選擇發卡公司</string>
+    <string name="inputcardverifyinfo">請輸入卡片驗證資訊</string>
+    <string name="phonenumber">手機號碼</string>
+    <string name="nationid">身分證字號</string>
+    <string name="cardnumber">卡號</string>
 </resources>

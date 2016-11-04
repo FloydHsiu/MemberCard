@@ -2,6 +2,7 @@ package com.floydxiu.hceproject.AddCardActivity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,10 +38,17 @@ public class AddCardActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.framelayoutAddCard, selectCompanyFragment);
         fragmentTransaction.commit();
 
+
     }
 
     public void setToolbarAddCard(){
         toolbarAddCard = (Toolbar) findViewById(R.id.toolbarAddCard);
         toolbarAddCard.setTitle(R.string.choseCardCompany);
+        toolbarAddCard.setTitleTextColor(Color.parseColor("#ffffff"));
+    }
+
+    public void changeToolbarAddCardTitle(String title){
+        toolbarAddCard.setTitle(title);
+        toolbarAddCard.setTitleTextColor(Color.parseColor("#ffffff"));
     }
 }

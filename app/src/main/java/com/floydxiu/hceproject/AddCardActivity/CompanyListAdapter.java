@@ -1,5 +1,7 @@
 package com.floydxiu.hceproject.AddCardActivity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -7,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.floydxiu.hceproject.R;
 
@@ -49,10 +50,15 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
 
                 AddCardActivity addCardActivity = (AddCardActivity)CompanyListAdapter.this.context;
                 addCardActivity.ComId = item.getComId();
-                Toast.makeText(CompanyListAdapter.this.context, ""+item.getComId(), Toast.LENGTH_LONG).show();
 
                 //change fragment
+                FragmentManager fragmentManager = ((AddCardActivity) CompanyListAdapter.this.context).getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framelayoutAddCard, new AddCardVerifyFragment());
+                fragmentTransaction.commit();
 
+                //change title
+                addCardActivity.changeToolbarAddCardTitle(addCardActivity.getResources().getString(R.string.inputcardverifyinfo));
             }
         });
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="2"/>
+
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"/>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.7"
+            android:orientation="horizontal"
+            android:id="@+id/linearlayoutCompanySelected">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/imgCompanySelected"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="7">
+
+                <TextView
+                    android:id="@+id/txvCompanyNameSelected"
+                    android:text="test"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="25dp"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/edtFragmentCardNumber"
+                android:layout_weight="1"
+                android:hint="@string/cardnumber"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/edtFragmentPhoneNumber"
+                android:layout_weight="1"
+                android:hint="@string/phonenumber" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:layout_gravity="center">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/edtFragmentNationId"
+                android:layout_weight="1"
+                android:hint="@string/nationid"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:layout_gravity="center">
+
+            <Button
+                android:text="@string/confirm"
+                android:id="@+id/btnAddCardConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+            <Button
+                android:text="@string/Cancel"
+                android:id="@+id/btnAddCardCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="2"/>
+
+</LinearLayout>

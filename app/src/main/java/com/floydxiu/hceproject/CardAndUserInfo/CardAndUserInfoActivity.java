@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.floydxiu.hceproject.AddCardActivity.AddCardActivity;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
@@ -100,7 +99,6 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.setClass(CardAndUserInfoActivity.this, AddCardActivity.class);
                         startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "Add Cards", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
