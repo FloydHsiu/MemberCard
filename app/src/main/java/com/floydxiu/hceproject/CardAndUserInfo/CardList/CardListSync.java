@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class CardListSync {
 
-    private String PreferenceName = "Lists";
+    static public String PreferenceName = "Lists";
     private Context context;
 
     public CardListSync(Context context){
@@ -63,7 +63,7 @@ public class CardListSync {
                         JSONObject temp = CardList.getJSONObject(i);
                         list.add(new Card(
                                 temp.getInt("ComId"),
-                                CompanyList.getString(""+temp.getInt("ComId")),
+                                CompanyList.getJSONObject("CompanyList").getString(""+temp.getInt("ComId")),
                                 temp.getInt("CardNum"),
                                 temp.getString("CardType"),
                                 temp.getString("ExpireTime"),

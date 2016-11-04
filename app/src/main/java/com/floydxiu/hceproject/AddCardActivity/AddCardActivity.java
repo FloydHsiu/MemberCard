@@ -21,6 +21,8 @@ public class AddCardActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+    public int ComId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +33,8 @@ public class AddCardActivity extends AppCompatActivity {
         fragmentManager = this.getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         SelectCompanyFragment selectCompanyFragment = new SelectCompanyFragment();
-        selectCompanyFragment.setParentActivity(AddCardActivity.this);
-        fragmentTransaction.add(selectCompanyFragment, "SELECT_COMPANY");
+        //selectCompanyFragment.setParentActivity(AddCardActivity.this);
+        fragmentTransaction.replace(R.id.framelayoutAddCard, selectCompanyFragment);
         fragmentTransaction.commit();
 
     }

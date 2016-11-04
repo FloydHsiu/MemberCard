@@ -339,7 +339,11 @@ public class APIConnection {
             JSONObject responseJSON = new JSONObject(response_data);
 
             if("success".equals(responseJSON.getString("state"))){
-                return responseJSON.getJSONObject("CompanyList");
+                JSONObject result = new JSONObject();
+                result.put("CompanyList", responseJSON.getJSONObject("CompanyList"));
+                result.put("CompanyList_array", responseJSON.getJSONArray("CompanyList_array"));
+
+                return  result;
             }
             else{
                 return null;

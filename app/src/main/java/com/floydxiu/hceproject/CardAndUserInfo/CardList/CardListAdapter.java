@@ -37,9 +37,11 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         final ImageView imgMore = (ImageView) convertView.findViewById(R.id.imgMore);
         final LinearLayout layoutDetails = (LinearLayout) convertView.findViewById(R.id.layoutDetails);
         final LinearLayout layoutbtnDetails = (LinearLayout) convertView.findViewById(R.id.layoutbtnDetails);
+        final TextView txvHeaderComName = (TextView) convertView.findViewById(R.id.txvHeaderComName);
         final TextView txvHeaderCardNum = (TextView) convertView.findViewById(R.id.txvHeaderCardNum);
 
         txvHeaderCardNum.setText(""+item.getCardNum());
+        txvHeaderComName.setText(item.getComName());
 
         layoutbtnDetails.setOnClickListener(new View.OnClickListener() {
             @Override

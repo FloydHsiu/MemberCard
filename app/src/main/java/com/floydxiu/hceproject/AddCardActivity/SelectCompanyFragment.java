@@ -2,14 +2,15 @@ package com.floydxiu.hceproject.AddCardActivity;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;
@@ -23,22 +24,22 @@ public class SelectCompanyFragment extends Fragment{
 
     ListView lvCompany;
 
-    public void setParentActivity(Context parentActivity) {
-        this.parentActivity = parentActivity;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.parentActivity = getActivity();
         View v = inflater.inflate(R.layout.fragment_selectcompany, container, false);
 
         lvCompany = (ListView) v.findViewById(R.id.lvCompany);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
-        lvCompany.setAdapter(arrayAdapter);
+
+        SharedPreferences sharedPreferences = parentActivity.getSharedPreferences(CardListSync.PreferenceName, Context.MODE_PRIVATE);
+        String CompanyListString = sharedPreferences.getString("CompanyList", "{}");
+
+        ArrayList<Company> list = Company.parseCompanyList(CompanyListString);
+
+        CompanyListAdapter companyListAdapter = new CompanyListAdapter(this.parentActivity, R.id.lvCompany, list);
+        lvCompany.setAdapter(companyListAdapter);
 
         return v;
     }
