@@ -15,4 +15,6 @@
     <string name="phonenumber">手機號碼</string>
     <string name="nationid">身分證字號</string>
     <string name="cardnumber">卡號</string>
+    <string name="logout">登出</string>
+    <string name="userinfo">使用者資訊</string>
 </resources>

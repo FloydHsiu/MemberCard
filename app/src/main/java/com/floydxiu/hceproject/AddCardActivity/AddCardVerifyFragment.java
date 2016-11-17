@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.R;
 
@@ -87,10 +92,41 @@ public class AddCardVerifyFragment extends Fragment {
                 String CardNum = edtFragmentCardNumber.getText().toString();
                 String Phonenumber = edtFragmentPhoneNumber.getText().toString();
                 String NationId = edtFragmentNationId.getText().toString();
+
+                AddCardTask addCardTask = new AddCardTask(AddCardVerifyFragment.this.context);
+                addCardTask.execute(""+addCardActivity.ComId, CardNum, Phonenumber, NationId);
             }
         });
 
 
         return v;
+    }
+
+    class AddCardTask extends AsyncTask<String, Void, Boolean>{
+        Context context;
+
+        AddCardTask(Context context){
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            APIConnection apiConnection = new APIConnection(this.context);
+            return apiConnection.addNewCard(params[0], params[1], params[2], params[3]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean == true){
+                Toast.makeText( this.context, "Success to add your card", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(this.context, CardAndUserInfoActivity.class);
+                this.context.startActivity(intent);
+                ((AddCardActivity)this.context).finish();
+            }
+            else{
+                Toast.makeText( this.context, "Fail to add your card", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

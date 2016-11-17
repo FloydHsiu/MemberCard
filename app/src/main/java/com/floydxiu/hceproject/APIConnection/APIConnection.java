@@ -43,6 +43,7 @@ public class APIConnection {
     private static String CREATE_ACCOUNT_ADDR = SERVER_CLIENT_ADDR + "createAccount.php";
     private static String GET_CARDLSIT = SERVER_CLIENT_ADDR + "getCardList.php";
     private static String GET_COMPANYLIST = SERVER_CLIENT_ADDR + "getCompanyList.php";
+    private static String Add_CARD_CLIENT = SERVER_CLIENT_ADDR + "addCard.php";
 
     public APIConnection(Context context){
         this.context = context;
@@ -271,7 +272,59 @@ public class APIConnection {
 
     /**  CardList API **/
 
-    public boolean addNewCard(){
+    public boolean addNewCard(String ComId, String CardNum, String Phone, String NationId){
+        try {
+            URL url = new URL(Add_CARD_CLIENT);
+            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+            httpconn.setConnectTimeout(1500);
+            httpconn.setReadTimeout(1500);
+            httpconn.setDoInput(true);
+            httpconn.setDoOutput(true);
+            httpconn.setRequestMethod("POST");
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(SplashInitialCheck.PreferenceName, Context.MODE_PRIVATE);
+            String session = sharedPreferences.getString("Session", "");
+            httpconn.setRequestProperty("Cookie", session);
+
+            /* !!!!!!!!!!! */
+            String request_data = "ComId=" + ComId + "&CardNum=" + CardNum + "&Phone=" + Phone + "&NationId=" + NationId;
+            OutputStream os = httpconn.getOutputStream();
+            os.write(request_data.getBytes());
+            os.close();
+
+            httpconn.connect();
+
+            //Get Response data
+            InputStream is = httpconn.getInputStream();
+            String response_data = readAll(is);
+            JSONObject responseJSON = new JSONObject(response_data);
+
+            String state = responseJSON.getString("state");
+
+            if("success".equals(state)){
+                return true;
+            }
+            else if("no this card".equals(state)){
+                return false;
+            }
+            else if("not login".equals(state)){
+                return false;
+            }
+            else if("Wrong card certificate".equals(state)){
+                return false;
+            }
+            else if("Update error".equals(state)){
+                return false;
+            }
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
