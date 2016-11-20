@@ -2,7 +2,6 @@ package com.floydxiu.hceproject.AddCardActivity;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
+import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.Company;
 import com.floydxiu.hceproject.R;
 
@@ -34,10 +33,9 @@ public class SelectCompanyFragment extends Fragment{
 
         lvCompany = (ListView) v.findViewById(R.id.lvCompany);
 
-        SharedPreferences sharedPreferences = parentActivity.getSharedPreferences(CardListSync.PreferenceName, Context.MODE_PRIVATE);
-        String CompanyListString = sharedPreferences.getString("CompanyList", "{}");
+        CompanyDBHelper companyDBHelper = new CompanyDBHelper(parentActivity);
 
-        ArrayList<Company> list = Company.parseCompanyList(CompanyListString);
+        ArrayList<Company> list = companyDBHelper.queryAll();
 
         CompanyListAdapter companyListAdapter = new CompanyListAdapter(this.parentActivity, R.id.lvCompany, list);
         lvCompany.setAdapter(companyListAdapter);

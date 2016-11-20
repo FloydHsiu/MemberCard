@@ -4,13 +4,14 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.Card;
+import com.floydxiu.hceproject.DataType.CardListSPManager;
 import com.floydxiu.hceproject.R;
 
 import org.json.JSONArray;
@@ -24,8 +25,6 @@ import java.util.ArrayList;
  */
 
 public class CardListSync {
-
-    static public String PreferenceName = "Lists";
     private Context context;
 
     public CardListSync(Context context){
@@ -48,23 +47,21 @@ public class CardListSync {
             //download list
             APIConnection apiConnection = new APIConnection(CardListSync.this.context);
             JSONArray CardList = apiConnection.getCardList();
-            JSONObject CompanyList = apiConnection.getCompanyLsit();
+            Boolean isGetCompanyList = apiConnection.getCompanyList();
 
             //trans jsonarray to arraylist
-            SharedPreferences sharedPreferences = context.getSharedPreferences(CardListSync.this.PreferenceName, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("CardList", CardList.toString());
-            editor.putString("CompanyList", CompanyList.toString());
-            editor.apply();
+            CardListSPManager cardListSPManager = new CardListSPManager(CardListSync.this.context);
+            cardListSPManager.setCardList_JSON(CardList.toString());
 
             ArrayList<Card> list = new ArrayList<>();
             if(CardList != null){
                 for(int i=0; i< CardList.length(); i++){
                     try {
                         JSONObject temp = CardList.getJSONObject(i);
+                        CompanyDBHelper companyDBHelper = new CompanyDBHelper(CardListSync.this.context);
                         list.add(new Card(
                                 temp.getInt("ComId"),
-                                CompanyList.getJSONObject("CompanyList").getString(""+temp.getInt("ComId")),
+                                companyDBHelper.queryComName(temp.getInt("ComId")),
                                 temp.getInt("CardNum"),
                                 temp.getString("CardType"),
                                 temp.getString("ExpireTime"),

@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.floydxiu.hceproject.DataType.Card;
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardExpandableListAdapter;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListAdapter;
+import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;
@@ -40,8 +39,6 @@ public class CardListFragment extends Fragment {
         //lvCard = (ExpandableListView) v.findViewById(lvCard);
         lvCard = (ListView) v.findViewById(R.id.lvCard);
 
-        CardExpandableListAdapter cardAdapter = new CardExpandableListAdapter(getActivity());
-        //lvCard.setAdapter(cardAdapter);
         if(CardList != null){
             CardListAdapter cardListAdapter = new CardListAdapter(getActivity(), R.id.lvCard, CardList);
             lvCard.setAdapter(cardListAdapter);

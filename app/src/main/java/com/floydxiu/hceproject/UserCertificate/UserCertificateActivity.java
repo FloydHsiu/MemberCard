@@ -1,14 +1,18 @@
 package com.floydxiu.hceproject.UserCertificate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.R;
 
 /**
@@ -44,7 +48,8 @@ public class UserCertificateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(apiConnection.checkNetworkState()){
-                    apiConnection.login(edtFragmentLoginAccount.getText().toString(), edtFragmentLoginPwd.getText().toString());
+                    LoginTask loginTask = new LoginTask(UserCertificateActivity.this);
+                    loginTask.execute(edtFragmentLoginAccount.getText().toString(), edtFragmentLoginPwd.getText().toString());
                 }
             }
         });
@@ -58,5 +63,32 @@ public class UserCertificateActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    class LoginTask extends AsyncTask<String, Void, Boolean> {
+        Context context;
+
+        public LoginTask(Context context){
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            APIConnection apiConnection = new APIConnection(this.context);
+            return apiConnection.login(params[0], params[1]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            if(s == true){
+                Intent intent = new Intent();
+                intent.setClass(context, CardAndUserInfoActivity.class);
+                context.startActivity(intent);
+                ((AppCompatActivity)context).finish();
+            }
+            else{
+                Toast.makeText(context, "Id or Password error!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,11 +19,8 @@ import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
+import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Floyd on 2016/11/4.
@@ -57,16 +53,9 @@ public class AddCardVerifyFragment extends Fragment {
         txvCompanyNameSelected = (TextView) v.findViewById(R.id.txvCompanyNameSelected);
         imgCompanySelected = (ImageView) v.findViewById(R.id.imgCompanySelected);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(CardListSync.PreferenceName, Context.MODE_PRIVATE);
-        try {
-            JSONObject CompanyList = new JSONObject(sharedPreferences.getString("CompanyList", "{}")).getJSONObject("CompanyList");
-            //selected company
-
-            String selectedComName = CompanyList.getString(""+addCardActivity.ComId);
-            txvCompanyNameSelected.setText(selectedComName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        CompanyDBHelper companyDBHelper = new CompanyDBHelper(this.context);
+        String selectedComName = companyDBHelper.queryComName(addCardActivity.ComId);
+        txvCompanyNameSelected.setText(selectedComName);
 
         linearlayoutCompanySelected.setOnClickListener(new View.OnClickListener() {
             @Override
