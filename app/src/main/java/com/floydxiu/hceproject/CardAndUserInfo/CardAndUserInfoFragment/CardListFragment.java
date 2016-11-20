@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.Card;
+import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardExpandableListAdapter;
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListAdapter;
 import com.floydxiu.hceproject.R;

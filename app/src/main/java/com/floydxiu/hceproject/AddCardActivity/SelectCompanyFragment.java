@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
+import com.floydxiu.hceproject.DataType.Company;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;

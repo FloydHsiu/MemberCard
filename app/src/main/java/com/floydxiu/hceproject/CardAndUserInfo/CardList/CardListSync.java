@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
 import org.json.JSONArray;

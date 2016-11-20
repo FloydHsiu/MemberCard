@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;

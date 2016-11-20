@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.AddCardActivity;
+package com.floydxiu.hceproject.DataType;
 
 import org.json.JSONArray;
 import org.json.JSONException;

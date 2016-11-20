@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.floydxiu.hceproject.DataType.Company;
 import com.floydxiu.hceproject.R;
 
 import java.util.List;

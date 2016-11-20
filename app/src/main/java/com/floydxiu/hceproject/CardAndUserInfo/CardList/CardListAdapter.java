@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
 import java.util.List;
