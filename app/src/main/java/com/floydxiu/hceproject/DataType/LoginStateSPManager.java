@@ -57,6 +57,7 @@ public class LoginStateSPManager {
         SharedPreferences sp = getSharedPreference(LoginState);
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt(OpenTimes, opentimes);
+        editor.apply();
     }
 
     public int getOpenTimes(){

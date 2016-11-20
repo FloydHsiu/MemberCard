@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
@@ -44,6 +45,7 @@ public class SplashActivity extends AppCompatActivity {
             LoginStateSPManager loginStateSPManager = new LoginStateSPManager(this.context);
             int OpenTimes = loginStateSPManager.getOpenTimes();
             boolean isLogin = loginStateSPManager.getLoginState();
+            Log.d("LoginState", ""+ OpenTimes + ", " + isLogin);
             Intent intent = new Intent();
 
             //First time open this app
@@ -66,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     if(islogin){
                         if(isadmin){//admin login
-
+                            intent.setClass(this.context, CardAndUserInfoActivity.class);
                         }
                         else{//client login
                             intent.setClass(this.context, CardAndUserInfoActivity.class);
@@ -82,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             loginStateSPManager.setOpenTimes(OpenTimes+1);
-            return null;
+            return intent;
         }
 
         @Override

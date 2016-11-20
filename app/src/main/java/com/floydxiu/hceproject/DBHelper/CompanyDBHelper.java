@@ -1,5 +1,6 @@
 package com.floydxiu.hceproject.DBHelper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,7 +45,7 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase companydb = this.getReadableDatabase();
         Cursor queryResult = companydb.rawQuery("SELECT ComName FROM Company WHERE ComId=" + ComId, null);
         queryResult.moveToFirst();
-        String result = queryResult.getString(1);
+        String result = queryResult.getString(0);
         companydb.close();
         return result;
     }
@@ -60,5 +61,22 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
         }
         companydb.close();
         return list;
+    }
+
+    private boolean isComIdExist(int ComId){
+        SQLiteDatabase companydb = this.getReadableDatabase();
+        Cursor queryResult = companydb.rawQuery("SELECT * FROM Company WHERE ComId="+ComId, null);
+        return (queryResult.getCount() > 0);
+    }
+
+    public void insertCom(int ComId, String ComName){
+        SQLiteDatabase companydb = this.getReadableDatabase();
+        if(!isComIdExist(ComId)){
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(this.ComId, ComId);
+            contentValues.put(this.ComName, ComName);
+            companydb.insertOrThrow(this.TableName, null, contentValues);
+        }
+        companydb.close();
     }
 }

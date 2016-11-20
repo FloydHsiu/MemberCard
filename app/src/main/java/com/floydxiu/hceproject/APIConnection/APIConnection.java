@@ -1,9 +1,7 @@
 package com.floydxiu.hceproject.APIConnection;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -161,6 +159,7 @@ public class APIConnection {
 
     public void logout(){
         loginStateSPManager.setSession("");
+        loginStateSPManager.setLoginState(false);
     }
 
     public boolean[] checkSessionIsLogin(){
@@ -168,8 +167,8 @@ public class APIConnection {
             try {
                 URL url = new URL(SERVER_CLIENT_ADDR +"valid.php");
                 HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-                httpconn.setConnectTimeout(1500);
-                httpconn.setReadTimeout(1500);
+                httpconn.setConnectTimeout(3000);
+                httpconn.setReadTimeout(3000);
                 httpconn.setDoInput(true);
                 httpconn.setDoOutput(true);
                 httpconn.setRequestMethod("GET");
@@ -329,19 +328,13 @@ public class APIConnection {
 
             if("success".equals(responseJSON.getString("state"))){
                 CompanyDBHelper companyDBHelper = new CompanyDBHelper(this.context);
-                SQLiteDatabase companydb = companyDBHelper.getWritableDatabase();
 
                 JSONArray companylist_array = responseJSON.getJSONArray("CompanyList_array");
 
                 for(int i=0; i < companylist_array.length() ; i++){
                     JSONObject company = companylist_array.getJSONObject(i);
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(companyDBHelper.ComId, company.getInt(companyDBHelper.ComId));
-                    contentValues.put(companyDBHelper.ComName, company.getString(companyDBHelper.ComName));
-                    companydb.insertOrThrow(companyDBHelper.TableName, null, contentValues);
+                    companyDBHelper.insertCom(company.getInt(companyDBHelper.ComId), company.getString(companyDBHelper.ComName));
                 }
-
-                companydb.close();
                 return true;
             }
 
