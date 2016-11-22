@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.UserCertificate;
+package com.floydxiu.hceproject.UserCertificateActivities;
 
 import android.content.Intent;
 import android.os.Bundle;

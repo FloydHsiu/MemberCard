@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment;
+package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoFragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListAdapter;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList.CardListAdapter;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 

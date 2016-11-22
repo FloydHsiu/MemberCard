@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.LoginStateSPManager;
-import com.floydxiu.hceproject.UserCertificate.UserCertificateActivity;
+import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

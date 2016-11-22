@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.CardAndUserInfo.CardList;
+package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList;
 
 import android.content.Context;
 import android.view.LayoutInflater;

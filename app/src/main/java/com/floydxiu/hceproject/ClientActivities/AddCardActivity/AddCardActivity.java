@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.AddCardActivity;
+package com.floydxiu.hceproject.ClientActivities.AddCardActivity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;

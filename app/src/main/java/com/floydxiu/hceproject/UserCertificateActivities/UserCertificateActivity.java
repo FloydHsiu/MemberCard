@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.UserCertificate;
+package com.floydxiu.hceproject.UserCertificateActivities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.R;
 
 /**

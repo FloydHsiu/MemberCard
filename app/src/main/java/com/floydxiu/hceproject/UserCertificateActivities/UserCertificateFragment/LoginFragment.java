@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.UserCertificate.UserCertificateFragment;
+package com.floydxiu.hceproject.UserCertificateActivities.UserCertificateFragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

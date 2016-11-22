@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.AddCardActivity;
+package com.floydxiu.hceproject.ClientActivities.AddCardActivity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.R;
 

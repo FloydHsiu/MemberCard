@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.CardAndUserInfo;
+package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -20,8 +20,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
 
-import com.floydxiu.hceproject.AddCardActivity.AddCardActivity;
-import com.floydxiu.hceproject.CardAndUserInfo.CardList.CardListSync;
+import com.floydxiu.hceproject.ClientActivities.AddCardActivity.AddCardActivity;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.R;
 
 import java.util.ArrayList;

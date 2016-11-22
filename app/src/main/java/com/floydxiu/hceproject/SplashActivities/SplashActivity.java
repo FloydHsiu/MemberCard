@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.Splash;
+package com.floydxiu.hceproject.SplashActivities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoActivity;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.DataType.LoginStateSPManager;
 import com.floydxiu.hceproject.R;
-import com.floydxiu.hceproject.UserCertificate.UserCertificateActivity;
+import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

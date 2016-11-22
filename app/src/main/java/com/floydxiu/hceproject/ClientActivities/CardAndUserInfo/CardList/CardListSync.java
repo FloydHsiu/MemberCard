@@ -1,4 +1,4 @@
-package com.floydxiu.hceproject.CardAndUserInfo.CardList;
+package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
-import com.floydxiu.hceproject.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
 import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.DataType.CardListSPManager;
