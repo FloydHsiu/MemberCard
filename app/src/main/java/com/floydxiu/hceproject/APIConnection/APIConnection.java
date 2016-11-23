@@ -37,12 +37,14 @@ public class APIConnection {
     LoginStateSPManager loginStateSPManager;
     /* !!!!!!!!!!!! */
     public static String SERVER_CLIENT_ADDR = "http://218.161.0.65/HCEprojectAPI/Client/";
+    public static String SERVER_ADMIN_ADDR = "http://218.161.0.65/HCEprojectAPI/Admin/";
     private static String LOGIN_ADDR = SERVER_CLIENT_ADDR + "login.php";
     private static String IS_LOGIN_STATE_ADDR = SERVER_CLIENT_ADDR + "IsLoginState.php";
     private static String CREATE_ACCOUNT_ADDR = SERVER_CLIENT_ADDR + "createAccount.php";
     private static String GET_CARDLSIT = SERVER_CLIENT_ADDR + "getCardList.php";
     private static String GET_COMPANYLIST = SERVER_CLIENT_ADDR + "getCompanyList.php";
     private static String Add_CARD_CLIENT = SERVER_CLIENT_ADDR + "addCard.php";
+    private static String TRANSACTION_RESPONSE = SERVER_ADMIN_ADDR + "TransactionResponse.php";
 
     public APIConnection(Context context){
         this.context = context;
@@ -335,6 +337,48 @@ public class APIConnection {
                     JSONObject company = companylist_array.getJSONObject(i);
                     companyDBHelper.insertCom(company.getInt(companyDBHelper.ComId), company.getString(companyDBHelper.ComName));
                 }
+                return true;
+            }
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /** Transaction **/
+
+    public boolean TransactionResponse(String TransCode){
+        try {
+            URL url = new URL(TRANSACTION_RESPONSE);
+            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+            httpconn.setConnectTimeout(1500);
+            httpconn.setReadTimeout(1500);
+            httpconn.setDoInput(true);
+            httpconn.setDoOutput(true);
+            httpconn.setRequestMethod("POST");
+
+            String request_data = "TransCode=" + TransCode;
+            OutputStream os = httpconn.getOutputStream();
+            os.write(request_data.getBytes());
+            os.close();
+
+            LoginStateSPManager loginStateSPManager = new LoginStateSPManager(this.context);
+            String session = loginStateSPManager.getSession();
+            httpconn.setRequestProperty("Cookie", session);
+
+            httpconn.connect();
+
+            //Get Response data
+            InputStream is = httpconn.getInputStream();
+            String response_data = readAll(is);
+            JSONObject responseJSON = new JSONObject(response_data);
+
+            if("success".equals(responseJSON.getString("state"))){
                 return true;
             }
 
