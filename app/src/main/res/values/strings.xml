@@ -17,4 +17,6 @@
     <string name="cardnumber">卡號</string>
     <string name="logout">登出</string>
     <string name="userinfo">使用者資訊</string>
+    <string name="servicedesc">會員卡感應認證</string>
+    <string name="aiddescription">卡片AID</string>
 </resources>

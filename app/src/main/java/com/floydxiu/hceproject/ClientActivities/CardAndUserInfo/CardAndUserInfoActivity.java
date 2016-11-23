@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,11 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
 
+import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.AddCardActivity.AddCardActivity;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.R;
+import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
 
 import java.util.ArrayList;
 
@@ -68,6 +71,21 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         //Set up navigation drawer
         drawerCardAndUserInfo = (DrawerLayout) findViewById(R.id.drawerCardAndUserInfo);
         navUser = (NavigationView) findViewById(R.id.navUser);
+        navUser.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.nav_logout:
+                        APIConnection apiConnection = new APIConnection(CardAndUserInfoActivity.this);
+                        apiConnection.logout();
+                        Intent intent = new Intent();
+                        intent.setClass(CardAndUserInfoActivity.this, UserCertificateActivity.class);
+                        startActivity(intent);
+                        CardAndUserInfoActivity.this.finish();
+                }
+                return true;
+            }
+        });
 
         CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
         cardListSync.download();

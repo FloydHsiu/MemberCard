@@ -45,6 +45,7 @@ public class APIConnection {
     private static String GET_COMPANYLIST = SERVER_CLIENT_ADDR + "getCompanyList.php";
     private static String Add_CARD_CLIENT = SERVER_CLIENT_ADDR + "addCard.php";
     private static String TRANSACTION_RESPONSE = SERVER_ADMIN_ADDR + "TransactionResponse.php";
+    private static String TRANSACTION_REQUEST = SERVER_CLIENT_ADDR + "TransactionRequest.php";
 
     public APIConnection(Context context){
         this.context = context;
@@ -362,14 +363,14 @@ public class APIConnection {
             httpconn.setDoOutput(true);
             httpconn.setRequestMethod("POST");
 
+            LoginStateSPManager loginStateSPManager = new LoginStateSPManager(this.context);
+            String session = loginStateSPManager.getSession();
+            httpconn.setRequestProperty("Cookie", session);
+
             String request_data = "TransCode=" + TransCode;
             OutputStream os = httpconn.getOutputStream();
             os.write(request_data.getBytes());
             os.close();
-
-            LoginStateSPManager loginStateSPManager = new LoginStateSPManager(this.context);
-            String session = loginStateSPManager.getSession();
-            httpconn.setRequestProperty("Cookie", session);
 
             httpconn.connect();
 
@@ -390,6 +391,42 @@ public class APIConnection {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String TransactionRequest(int ComId, int CardNum){
+        try{
+            URL url = new URL(TRANSACTION_REQUEST);
+            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
+            httpconn.setConnectTimeout(1500);
+            httpconn.setReadTimeout(1500);
+            httpconn.setDoInput(true);
+            httpconn.setDoOutput(true);
+            httpconn.setRequestMethod("POST");
+
+            LoginStateSPManager loginStateSPManager = new LoginStateSPManager(this.context);
+            String session = loginStateSPManager.getSession();
+            httpconn.setRequestProperty("Cookie", session);
+
+            String request_data = "ComId=" + ComId + "&CardNum=" + CardNum;
+            OutputStream os = httpconn.getOutputStream();
+            os.write(request_data.getBytes());
+            os.close();
+
+            httpconn.connect();
+
+            //Get Response data
+            InputStream is = httpconn.getInputStream();
+            String response_data = readAll(is);
+            JSONObject responseJSON = new JSONObject(response_data);
+
+            if("success".equals(responseJSON.getString("state"))){
+                return responseJSON.getString("transcode");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Use to check "if the device has connect to network."

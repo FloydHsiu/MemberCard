@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.AdminActivities.AdminControlActivity;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.DataType.LoginStateSPManager;
 import com.floydxiu.hceproject.R;
@@ -68,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     if(islogin){
                         if(isadmin){//admin login
-                            intent.setClass(this.context, CardAndUserInfoActivity.class);
+                            intent.setClass(this.context, AdminControlActivity.class);
                         }
                         else{//client login
                             intent.setClass(this.context, CardAndUserInfoActivity.class);

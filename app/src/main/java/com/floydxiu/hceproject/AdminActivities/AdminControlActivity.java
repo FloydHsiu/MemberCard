@@ -21,6 +21,7 @@ public class AdminControlActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admincontrol);
 
         fragmentManager = getFragmentManager();
 
@@ -28,7 +29,7 @@ public class AdminControlActivity extends AppCompatActivity {
         CardReaderFragment cardReaderFragment = new CardReaderFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.FragmentAdminControl, cardReaderFragment);
-
+        fragmentTransaction.commit();
     }
 
 

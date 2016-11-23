@@ -31,6 +31,8 @@ public class Card {
         return this.ComName;
     }
 
+    public int getComId() { return this.ComId; }
+
     public int getCardNum(){
         return this.CardNum;
     }
