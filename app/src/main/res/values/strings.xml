@@ -19,4 +19,15 @@
     <string name="userinfo">使用者資訊</string>
     <string name="servicedesc">會員卡感應認證</string>
     <string name="aiddescription">卡片AID</string>
+    <string name="startTransaction">感應驗證</string>
+    <string name="CardLevel">會員等級</string>
+        <string name="NLevel">一般會員</string>
+        <string name="GLevel">金級會員</string>
+        <string name="PLevel">白金級會員</string>
+        <string name="DLevel">鑽石級會員</string>
+    <string name="CardType">卡片類型</string>
+        <string name="PCardType">永久</string>
+        <string name="LCardType">限時</string>
+        <string name="TCardType">計次</string>
+    <string name="ExpireTime">有效期限</string>
 </resources>

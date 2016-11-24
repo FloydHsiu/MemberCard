@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,9 +50,24 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         final LinearLayout layoutbtnDetails = (LinearLayout) convertView.findViewById(R.id.layoutbtnDetails);
         final TextView txvHeaderComName = (TextView) convertView.findViewById(R.id.txvHeaderComName);
         final TextView txvHeaderCardNum = (TextView) convertView.findViewById(R.id.txvHeaderCardNum);
+        final TextView txvCardLevel = (TextView) convertView.findViewById(R.id.txvCardLevel);
+        final TextView txvCardType = (TextView) convertView.findViewById(R.id.txvCardType);
+        final TextView txvExpireTime = (TextView) convertView.findViewById(R.id.txvExpireTime);
+        final Button btnStartTransaction = (Button) convertView.findViewById(R.id.btnStartTransaction);
 
         txvHeaderCardNum.setText(""+item.getCardNum());
         txvHeaderComName.setText(item.getComName());
+        settxvCardLevel(txvCardLevel, item);
+        settxvCardType(txvCardType, item);
+        settxvExpireTime(txvExpireTime, item);
+
+        btnStartTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransactionRequestTask transactionRequestTask = new TransactionRequestTask();
+                transactionRequestTask.execute(new Integer(item.getComId()), new Integer(item.getCardNum()));
+            }
+        });
 
         layoutbtnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +77,6 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                     layoutDetails.getLayoutParams().height = 300;
                     layoutDetails.requestLayout();
                     imgMore.setImageResource(R.drawable.ic_expand_less_black_24dp);
-
-                    TransactionRequestTask transactionRequestTask = new TransactionRequestTask();
-                    transactionRequestTask.execute(new Integer(item.getComId()), new Integer(item.getCardNum()));
                 }
                 else{
                     layoutDetails.setVisibility(LinearLayout.INVISIBLE);
@@ -70,14 +84,76 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                     layoutDetails.requestLayout();
                     imgMore.setImageResource(R.drawable.ic_expand_more_black_24dp);
 
-                    CardListAdapter.this.context.stopService(APDUservice);
-                    Toast.makeText(CardListAdapter.this.context, "Stop NFC service", Toast.LENGTH_SHORT).show();
+                    if(APDUservice != null){
+                        CardListAdapter.this.context.stopService(APDUservice);
+                        Toast.makeText(CardListAdapter.this.context, "Stop NFC service", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
         });
 
         return convertView;
+    }
+
+    void settxvCardLevel(TextView txvCardLevel, Card item){
+        char CardLevel = item.getCardLevel().charAt(0);
+        switch (CardLevel){
+            case 'N':
+                txvCardLevel.setText(context.getResources().getString(R.string.NLevel));
+                break;
+            case 'G':
+                txvCardLevel.setText(context.getResources().getString(R.string.GLevel));
+                break;
+            case 'P':
+                txvCardLevel.setText(context.getResources().getString(R.string.PLevel));
+                break;
+            case 'D':
+                txvCardLevel.setText(context.getResources().getString(R.string.DLevel));
+                break;
+            case 'I':
+                txvCardLevel.setText("InValid");
+                break;
+        }
+    }
+
+    void settxvCardType(TextView txvCardType, Card item){
+        char CardType = item.getCardType().charAt(0);
+        switch (CardType){
+            case 'P':
+                txvCardType.setText(context.getResources().getString(R.string.PCardType));
+                break;
+            case 'L':
+                txvCardType.setText(context.getResources().getString(R.string.LCardType));
+                break;
+            case 'T':
+                txvCardType.setText(context.getResources().getString(R.string.TCardType));
+                break;
+            default:
+                txvCardType.setText("InValid");
+                break;
+        }
+    }
+
+    void settxvExpireTime(TextView txvExpireTime, Card item){
+        char CardType = item.getCardType().charAt(0);
+        switch (CardType){
+            case 'P':
+                txvExpireTime.setText("∞");
+                break;
+            case 'L':
+                String timestamp = item.getExpireTime();
+                Date date = new Date();
+                date.setTime(new Integer(timestamp));
+                txvExpireTime.setText(date.toString());
+                break;
+            case 'T':
+                txvExpireTime.setText(item.getExpireTime());
+                break;
+            default:
+                txvExpireTime.setText("InValid");
+                break;
+        }
     }
 
     class TransactionRequestTask extends AsyncTask<Integer, Void, String>{
