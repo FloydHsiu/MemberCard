@@ -8,6 +8,7 @@ import android.nfc.tech.IsoDep;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,29 @@ import java.nio.charset.Charset;
 
 public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCallback {
     Context context;
+    NfcAdapter nfcAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getActivity();
         View v = inflater.inflate(R.layout.fragment_cardreader, container, false);
+        //Enable App As a Reader
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this.context);
+        nfcAdapter.enableReaderMode((AppCompatActivity)this.context, this, NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK | NfcAdapter.FLAG_READER_NFC_A, null);
         return v;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        nfcAdapter.disableReaderMode((AppCompatActivity)this.context);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nfcAdapter.enableReaderMode((AppCompatActivity)this.context, this, NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK | NfcAdapter.FLAG_READER_NFC_A, null);
     }
 
     @Override
