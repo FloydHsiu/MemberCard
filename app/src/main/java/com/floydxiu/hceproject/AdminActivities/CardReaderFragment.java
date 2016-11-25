@@ -57,9 +57,9 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
         nfcReader.execute(tag);
     }
 
-    private class NFCReader extends AsyncTask<Tag, Void, Boolean> {
+    private class NFCReader extends AsyncTask<Tag, Void, String> {
         @Override
-        protected Boolean doInBackground(Tag... params) {
+        protected String doInBackground(Tag... params) {
             byte[] APDU_COMMAND = {
                     (byte)0x00,
                     (byte)0xA4,
@@ -85,23 +85,41 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
                 byte[] result = tag.transceive(APDU_COMMAND);
                 String TransCode = new String(result, Charset.forName("US-ASCII"));
                 System.out.println(TransCode);
-
-                APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
-                return apiConnection.TransactionResponse(TransCode);
+                return TransCode;
 
             } catch (IOException e) {
-                return false;
+                return null;
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean b) {
-            super.onPostExecute(b);
-            if(b){
-                Toast.makeText(CardReaderFragment.this.context, "Transaction Success", Toast.LENGTH_LONG);
+        protected void onPostExecute(String transcode) {
+            super.onPostExecute(transcode);
+            if(transcode != null){
+                TransactionReponseTask transactionReponseTask = new TransactionReponseTask();
+                transactionReponseTask.execute(transcode);
             }
             else{
-                Toast.makeText(CardReaderFragment.this.context, "Error", Toast.LENGTH_LONG);
+                Toast.makeText(CardReaderFragment.this.context, "Try Again", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class TransactionReponseTask extends AsyncTask<String, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(String... params) {
+            APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
+            return apiConnection.TransactionResponse(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                Toast.makeText(CardReaderFragment.this.context, "Accept", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(CardReaderFragment.this.context, "InValid", Toast.LENGTH_LONG).show();
             }
         }
     }
