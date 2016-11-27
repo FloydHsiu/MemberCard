@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.DataType.ApduCommand;
 import com.floydxiu.hceproject.R;
 
 import java.io.IOException;
@@ -57,35 +58,30 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
         nfcReader.execute(tag);
     }
 
-    private class NFCReader extends AsyncTask<Tag, Void, String> {
+    public class NFCReader extends AsyncTask<Tag, Void, Boolean> {
         @Override
-        protected String doInBackground(Tag... params) {
-            byte[] APDU_COMMAND = {
-                    (byte)0x00,
-                    (byte)0xA4,
-                    (byte)0x04,
-                    (byte)0x00,
-                    (byte)0x07,
-                    (byte)0xF0, (byte)0x39, (byte)0x41, (byte)0x48, (byte)0x14, (byte)0x81, (byte)0x00
-            };
-
-            byte[] APDU_COMMAND2 = {
-                    (byte)0x00,
-                    (byte)0xA4,
-                    (byte)0x04,
-                    (byte)0x00,
-                    (byte)0x07,
-                    (byte)0xF0, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04, (byte)0x05, (byte)0x06
-            };
-
+        protected Boolean doInBackground(Tag... params) {
             IsoDep tag = IsoDep.get(params[0]);
             System.out.println("reading");
             try {
                 tag.connect();
-                byte[] result = tag.transceive(APDU_COMMAND);
+                byte[] result = tag.transceive(ApduCommand.GET_TRANSCODE_COMMAND);
                 String TransCode = new String(result, Charset.forName("US-ASCII"));
                 System.out.println(TransCode);
-                return TransCode;
+
+                APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
+                Boolean transresponse = apiConnection.TransactionResponse(TransCode);
+                if(transresponse){
+                    result = tag.transceive(ApduCommand.TRANS_SUCCESS_COMMAND);
+                    TransCode = new String(result, Charset.forName("US-ASCII"));
+                    System.out.println(TransCode);
+                }
+                else{
+                    result = tag.transceive(ApduCommand.TRANS_SUCCESS_COMMAND);
+                    TransCode = new String(result, Charset.forName("US-ASCII"));
+                    System.out.println(TransCode);
+                }
+                return transresponse;
 
             } catch (IOException e) {
                 return null;
@@ -93,33 +89,18 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
         }
 
         @Override
-        protected void onPostExecute(String transcode) {
-            super.onPostExecute(transcode);
-            if(transcode != null){
-                TransactionReponseTask transactionReponseTask = new TransactionReponseTask();
-                transactionReponseTask.execute(transcode);
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean != null){
+                if(aBoolean){
+                    Toast.makeText(CardReaderFragment.this.context, "Accept", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(CardReaderFragment.this.context, "InValid", Toast.LENGTH_LONG).show();
+                }
             }
             else{
                 Toast.makeText(CardReaderFragment.this.context, "Try Again", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private class TransactionReponseTask extends AsyncTask<String, Void, Boolean>{
-        @Override
-        protected Boolean doInBackground(String... params) {
-            APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
-            return apiConnection.TransactionResponse(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean){
-                Toast.makeText(CardReaderFragment.this.context, "Accept", Toast.LENGTH_LONG).show();
-            }
-            else{
-                Toast.makeText(CardReaderFragment.this.context, "InValid", Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -5,6 +5,8 @@ import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.floydxiu.hceproject.DataType.ApduCommand;
+
 /**
  * Created by Floyd on 2016/11/23.
  */
@@ -26,8 +28,21 @@ public class APDUservice extends HostApduService {
     @Override
     public byte[] processCommandApdu(byte[] apdu, Bundle extras) {
         //在此處理Reader傳入的訊息
-        System.out.println("processing");
-        return TransCode.getBytes();
+        ApduCommand apduCommand = new ApduCommand(apdu);
+        if(apduCommand.step == 0){
+            return TransCode.getBytes();
+        }
+        else if(apduCommand.step == 1){
+            if(apduCommand.state == 1){
+                return "success".getBytes();
+            }
+            else{
+                return "fail".getBytes();
+            }
+        }
+        else{
+            return "No Support Cmd".getBytes();
+        }
     }
 
     //當連線中斷
