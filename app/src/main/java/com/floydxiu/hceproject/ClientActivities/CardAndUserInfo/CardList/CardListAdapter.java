@@ -3,7 +3,6 @@ package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
@@ -29,12 +29,12 @@ public class CardListAdapter extends ArrayAdapter<Card> {
 
     private LayoutInflater layoutInflater;
     Context context;
-    Intent APDUservice;
 
     public CardListAdapter(Context context, int resource, List<Card> objects) {
         super(context, resource, objects);
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -61,11 +61,14 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         settxvCardType(txvCardType, item);
         settxvExpireTime(txvExpireTime, item);
 
+        final CardAndUserInfoActivity activity = (CardAndUserInfoActivity) this.context;
+
         btnStartTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TransactionRequestTask transactionRequestTask = new TransactionRequestTask();
                 transactionRequestTask.execute(new Integer(item.getComId()), new Integer(item.getCardNum()));
+                btnStartTransaction.setClickable(false);
             }
         });
 
@@ -84,8 +87,8 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                     layoutDetails.requestLayout();
                     imgMore.setImageResource(R.drawable.ic_expand_more_black_24dp);
 
-                    if(APDUservice != null){
-                        CardListAdapter.this.context.stopService(APDUservice);
+                    if(activity.apdUservice != null){
+                        CardListAdapter.this.context.stopService(activity.apdUservice);
                         Toast.makeText(CardListAdapter.this.context, "Stop NFC service", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -168,11 +171,14 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s != null){
-                AppCompatActivity activity = (AppCompatActivity) CardListAdapter.this.context;
-                CardListAdapter.this.APDUservice = new Intent();
-                CardListAdapter.this.APDUservice.setClass(activity, com.floydxiu.hceproject.Services.APDUservice.class);
-                CardListAdapter.this.APDUservice.putExtra("TransCode", s);
-                activity.startService(CardListAdapter.this.APDUservice);
+                CardAndUserInfoActivity activity = (CardAndUserInfoActivity) CardListAdapter.this.context;
+                if(activity.apdUservice != null){
+                    activity.stopService(activity.apdUservice);
+                }
+                activity.apdUservice = new Intent();
+                activity.apdUservice.setClass(activity, com.floydxiu.hceproject.Services.APDUservice.class);
+                activity.apdUservice.putExtra("TransCode", s);
+                activity.startService(activity.apdUservice);
                 Toast.makeText(activity, "Start NFC service", Toast.LENGTH_SHORT).show();
             }
         }

@@ -34,6 +34,7 @@ public class APDUservice extends HostApduService {
         }
         else if(apduCommand.step == 1){
             if(apduCommand.state == 1){
+                this.stopSelf();
                 return "success".getBytes();
             }
             else{

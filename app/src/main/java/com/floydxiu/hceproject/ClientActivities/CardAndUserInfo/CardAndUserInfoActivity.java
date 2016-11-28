@@ -54,6 +54,8 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     NavigationView navUser;
     DrawerLayout drawerCardAndUserInfo;
 
+    public Intent apdUservice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,8 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 
         CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
         cardListSync.download();
+
+
 
     }
 
