@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -101,6 +102,7 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         //Toolbar setting
         toolbarCardAndUserInfo = (Toolbar) findViewById(R.id.toolbarCardAndUserInfo);
         toolbarCardAndUserInfo.setTitle(R.string.app_name);
+        toolbarCardAndUserInfo.setTitleTextColor(Color.WHITE);
         //Clear Menu
         toolbarCardAndUserInfo.getMenu().clear();
         if(FragmentChoice == CardAndUserInfoEnum.CardList){

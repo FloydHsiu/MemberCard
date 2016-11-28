@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
+import com.floydxiu.hceproject.AdminActivities.AdminControlActivity;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.R;
 
@@ -65,7 +66,7 @@ public class UserCertificateActivity extends AppCompatActivity {
 
     }
 
-    class LoginTask extends AsyncTask<String, Void, Boolean> {
+    class LoginTask extends AsyncTask<String, Void, Intent> {
         Context context;
 
         public LoginTask(Context context){
@@ -73,21 +74,46 @@ public class UserCertificateActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Intent doInBackground(String... params) {
             APIConnection apiConnection = new APIConnection(this.context);
-            return apiConnection.login(params[0], params[1]);
+            Boolean LoginResult = apiConnection.login(params[0], params[1]);
+            Intent intent = new Intent();
+            if(LoginResult){
+                boolean[] checksessionstate = apiConnection.checkSessionIsLogin();
+                boolean islogin = false;
+                boolean isadmin = false;
+
+                if(checksessionstate != null){
+                    islogin = checksessionstate[0];
+                    isadmin = checksessionstate[1];
+                }
+                if(islogin){
+                    if(isadmin){//admin login
+                        intent.setClass(this.context, AdminControlActivity.class);
+                        return intent;
+                    }
+                    else{//client login
+                        intent.setClass(this.context, CardAndUserInfoActivity.class);
+                        return intent;
+                    }
+                }
+                else{//not login
+                    return null;
+                }
+            }
+            else{
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(Boolean s) {
-            if(s == true){
-                Intent intent = new Intent();
-                intent.setClass(context, CardAndUserInfoActivity.class);
-                context.startActivity(intent);
-                ((AppCompatActivity)context).finish();
+        protected void onPostExecute(Intent intent) {
+            if(intent == null){
+                Toast.makeText(context, "Id or Password error!", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(context, "Id or Password error!", Toast.LENGTH_SHORT).show();
+                context.startActivity(intent);
+                ((AppCompatActivity)context).finish();
             }
         }
     }

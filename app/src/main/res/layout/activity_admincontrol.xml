@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,12 +11,37 @@
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbarCardAndUserInfo" />
+        android:id="@+id/toolbarAdminControl" />
 
-    <LinearLayout
-        android:id="@+id/FragmentAdminControl"
-        android:layout_height="match_parent"
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawerAdminControl"
         android:layout_width="match_parent"
-        android:orientation="vertical"/>
+        android:layout_height="match_parent">
+        <!-- The main content view -->
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/FragmentAdminControl"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="vertical"/>
+
+
+        </FrameLayout>
+        <!-- The navigation drawer -->
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/menu_usernavigation"
+            app:headerLayout="@layout/navigationheader_cardanduserinfoactivity"
+            />
+    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>
