@@ -10,4 +10,10 @@
         android:orderInCategory="10"
         app:showAsAction="always"
         />
+
+    <item
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:id="@+id/itemCardListReload"
+        android:orderInCategory="9"
+        app:showAsAction="always"/>
 </menu>

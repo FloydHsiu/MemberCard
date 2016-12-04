@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
+import com.floydxiu.hceproject.ClientActivities.CardTransactionActivity.CardTransactionActivity;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
@@ -68,7 +68,6 @@ public class CardListAdapter extends ArrayAdapter<Card> {
             public void onClick(View v) {
                 TransactionRequestTask transactionRequestTask = new TransactionRequestTask();
                 transactionRequestTask.execute(new Integer(item.getComId()), new Integer(item.getCardNum()));
-                btnStartTransaction.setClickable(false);
             }
         });
 
@@ -86,11 +85,6 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                     layoutDetails.getLayoutParams().height = 0;
                     layoutDetails.requestLayout();
                     imgMore.setImageResource(R.drawable.ic_expand_more_black_24dp);
-
-                    if(activity.apdUservice != null){
-                        CardListAdapter.this.context.stopService(activity.apdUservice);
-                        Toast.makeText(CardListAdapter.this.context, "Stop NFC service", Toast.LENGTH_SHORT).show();
-                    }
                 }
 
             }
@@ -172,14 +166,10 @@ public class CardListAdapter extends ArrayAdapter<Card> {
             super.onPostExecute(s);
             if(s != null){
                 CardAndUserInfoActivity activity = (CardAndUserInfoActivity) CardListAdapter.this.context;
-                if(activity.apdUservice != null){
-                    activity.stopService(activity.apdUservice);
-                }
-                activity.apdUservice = new Intent();
-                activity.apdUservice.setClass(activity, com.floydxiu.hceproject.Services.APDUservice.class);
-                activity.apdUservice.putExtra("TransCode", s);
-                activity.startService(activity.apdUservice);
-                Toast.makeText(activity, "Start NFC service", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(activity, CardTransactionActivity.class);
+                intent.putExtra("TransCode", s);
+                activity.startActivity(intent);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.floydxiu.hceproject.Services;
 
 import android.content.Intent;
 import android.nfc.cardemulation.HostApduService;
+import android.os.Binder;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ public class APDUservice extends HostApduService {
 
     String TransCode;
 
+    Intent cardtransactivity;
+
     public APDUservice() {
         super();
     }
@@ -34,10 +37,11 @@ public class APDUservice extends HostApduService {
         }
         else if(apduCommand.step == 1){
             if(apduCommand.state == 1){
-                this.stopSelf();
+                cardtransactivity.putExtra("state", "success");
                 return "success".getBytes();
             }
             else{
+                cardtransactivity.putExtra("state", "fail");
                 return "fail".getBytes();
             }
         }
@@ -66,6 +70,8 @@ public class APDUservice extends HostApduService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        cardtransactivity = intent;
+        Log.i("INTENT", cardtransactivity.toString());
         //service開始之後會執行此部分
         if(intent.getExtras() != null){
             TransCode = intent.getExtras().getString("TransCode");
@@ -73,5 +79,11 @@ public class APDUservice extends HostApduService {
         }
         Log.i(TAG, TAG+" started");
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    public class apduBinder extends Binder{
+        public APDUservice getService(){
+            return APDUservice.this;
+        }
     }
 }
