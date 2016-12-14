@@ -94,7 +94,7 @@ public class CardListAdapter extends ArrayAdapter<Card> {
     }
 
     void settxvCardLevel(TextView txvCardLevel, Card item){
-        char CardLevel = item.getCardLevel().charAt(0);
+        char CardLevel = item.getFormattedCardLevel().charAt(0);
         switch (CardLevel){
             case 'N':
                 txvCardLevel.setText(context.getResources().getString(R.string.NLevel));
@@ -139,13 +139,13 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                 txvExpireTime.setText("∞");
                 break;
             case 'L':
-                String timestamp = item.getExpireTime();
+                String timestamp = item.getFormattedExpireTime();
                 Date date = new Date();
                 date.setTime(new Integer(timestamp));
                 txvExpireTime.setText(date.toString());
                 break;
             case 'T':
-                txvExpireTime.setText(item.getExpireTime());
+                txvExpireTime.setText(item.getFormattedExpireTime());
                 break;
             default:
                 txvExpireTime.setText("InValid");

@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.floydxiu.hceproject.DBHelper.CardDBHelper;
 import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.LoginStateSPManager;
 import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
@@ -163,6 +164,8 @@ public class APIConnection {
     public void logout(){
         loginStateSPManager.setSession("");
         loginStateSPManager.setLoginState(false);
+        CardDBHelper cardDBHelper = new CardDBHelper(this.context);
+        cardDBHelper.deleteAll();
     }
 
     public boolean[] checkSessionIsLogin(){

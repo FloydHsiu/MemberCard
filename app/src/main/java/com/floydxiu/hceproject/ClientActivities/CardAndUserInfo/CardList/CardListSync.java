@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoFragment.CardListFragment;
+import com.floydxiu.hceproject.DBHelper.CardDBHelper;
 import com.floydxiu.hceproject.DBHelper.CompanyDBHelper;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.DataType.CardListSPManager;
@@ -48,17 +49,18 @@ public class CardListSync {
             APIConnection apiConnection = new APIConnection(CardListSync.this.context);
             JSONArray CardList = apiConnection.getCardList();
             Boolean isGetCompanyList = apiConnection.getCompanyList();
+            CompanyDBHelper companyDBHelper = new CompanyDBHelper(CardListSync.this.context);
 
             //trans jsonarray to arraylist
             CardListSPManager cardListSPManager = new CardListSPManager(CardListSync.this.context);
             cardListSPManager.setCardList_JSON(CardList.toString());
 
+            //將雲端獲得的JSON轉乘list
             ArrayList<Card> list = new ArrayList<>();
             if(CardList != null){
                 for(int i=0; i< CardList.length(); i++){
                     try {
                         JSONObject temp = CardList.getJSONObject(i);
-                        CompanyDBHelper companyDBHelper = new CompanyDBHelper(CardListSync.this.context);
                         list.add(new Card(
                                 temp.getInt("ComId"),
                                 companyDBHelper.queryComName(temp.getInt("ComId")),
@@ -72,7 +74,17 @@ public class CardListSync {
                 }
             }
 
-            return list;
+            //將本地與遠端同步
+            CardDBHelper cardDBHelper = new CardDBHelper(CardListSync.this.context);
+            ArrayList<Card> local = cardDBHelper.queryAll();
+            cardDBHelper.syncCardDB(local, list);
+            local = cardDBHelper.queryAll();
+            for(int i=0; i<local.size(); i++){
+                Card item = local.get(i);
+                item.setComName(companyDBHelper.queryComName(item.getComId()));
+            }
+
+            return local;
         }
 
         @Override
