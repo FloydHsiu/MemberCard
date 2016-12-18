@@ -356,12 +356,12 @@ public class APIConnection {
 
     /** Transaction **/
 
-    public boolean TransactionResponse(String TransCode){
+    public boolean TransactionResponse(String TransCode) throws IOException{
         try {
             URL url = new URL(TRANSACTION_RESPONSE);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(1500);
-            httpconn.setReadTimeout(1500);
+            httpconn.setConnectTimeout(10000);
+            httpconn.setReadTimeout(10000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(true);
             httpconn.setRequestMethod("POST");
@@ -382,21 +382,18 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
 
-            if("success".equals(responseJSON.getString("state"))){
+            if ("success".equals(responseJSON.getString("state"))) {
                 return true;
             }
-
-        }catch (MalformedURLException e) {
+        }catch (MalformedURLException e){
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        }catch (JSONException e){
             e.printStackTrace();
         }
         return false;
     }
 
-    public String TransactionRequest(int ComId, int CardNum){
+    public String TransactionRequest(int ComId, int CardNum) throws IOException{
         try{
             URL url = new URL(TRANSACTION_REQUEST);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
@@ -426,7 +423,9 @@ public class APIConnection {
                 return responseJSON.getString("transcode");
             }
 
-        }catch (Exception e){
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }catch (JSONException e){
             e.printStackTrace();
         }
         return null;

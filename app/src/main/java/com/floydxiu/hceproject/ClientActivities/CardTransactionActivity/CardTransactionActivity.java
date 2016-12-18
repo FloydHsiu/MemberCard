@@ -75,21 +75,12 @@ public class CardTransactionActivity extends AppCompatActivity {
             for(int i=0; i<30; i++){
                 if(isCancelled()){
                     msg = "cancel";
-
                     break;
                 }
                 try {
                     Thread.sleep(1*1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
-                if(activity.apduService.getStringExtra("state") != null){
-                    if(activity.apduService.getStringExtra("state").equals("success")){
-                        //show success
-                        publishProgress(new Integer(-1));
-                        msg = "success";
-                        break;
-                    }
                 }
                 publishProgress(new Integer(1));
             }

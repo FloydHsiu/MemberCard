@@ -95,6 +95,13 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
+        cardListSync.download();
+    }
+
     private void setToolbars(){
 
         //Toolbar setting

@@ -24,29 +24,27 @@ public class APDUservice extends HostApduService {
 
     Intent cardtransactivity;
 
+    public static String APDU_RESPONSE_NONACTIVE = "NA";
+    public static String APDU_RESPONSE_UNKNOWN_CMD = "NC";
+
     public APDUservice() {
         super();
     }
 
     @Override
     public byte[] processCommandApdu(byte[] apdu, Bundle extras) {
-        //在此處理Reader傳入的訊息
-        ApduCommand apduCommand = new ApduCommand(apdu);
-        if(apduCommand.step == 0){
-            return TransCode.getBytes();
-        }
-        else if(apduCommand.step == 1){
-            if(apduCommand.state == 1){
-                cardtransactivity.putExtra("state", "success");
-                return "success".getBytes();
-            }
-            else{
-                cardtransactivity.putExtra("state", "fail");
-                return "fail".getBytes();
-            }
+        if(TransCode == null){ //check service is start or not
+            return APDU_RESPONSE_NONACTIVE.getBytes();
         }
         else{
-            return "No Support Cmd".getBytes();
+            //在此處理Reader傳入的訊息
+            ApduCommand apduCommand = new ApduCommand(apdu);
+            if(apduCommand.step == 0){
+                return TransCode.getBytes();
+            }
+            else{
+                return APDU_RESPONSE_UNKNOWN_CMD.getBytes();
+            }
         }
     }
 

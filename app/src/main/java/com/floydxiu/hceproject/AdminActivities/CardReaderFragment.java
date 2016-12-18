@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.DataType.ApduCommand;
 import com.floydxiu.hceproject.R;
+import com.floydxiu.hceproject.Services.APDUservice;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -58,49 +59,65 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
         nfcReader.execute(tag);
     }
 
-    public class NFCReader extends AsyncTask<Tag, Void, Boolean> {
+    public class NFCReader extends AsyncTask<Tag, Void, Integer> {
+        private final int RESULT_STATE_APDU_NONACTIVE = 0;
+        private final int RESULT_STATE_UNKNOWN_CMD = 1;
+        private final int RESULT_STATE_TRANS_ACCEPT = 2;
+        private final int RESULT_STATE_TRANS_INVALID = 3;
+        private final int RESULT_STATE_NETWORK_ERROR = 4;
+        private final int RESULT_STATE_APDU_CONN_ERROR = 5;
+
         @Override
-        protected Boolean doInBackground(Tag... params) {
+        protected Integer doInBackground(Tag... params) {
             IsoDep tag = IsoDep.get(params[0]);
             System.out.println("reading");
             try {
                 tag.connect();
                 byte[] result = tag.transceive(ApduCommand.GET_TRANSCODE_COMMAND);
                 String TransCode = new String(result, Charset.forName("US-ASCII"));
-                System.out.println(TransCode);
-
-                APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
-                Boolean transresponse = apiConnection.TransactionResponse(TransCode);
-                if(transresponse){
-                    result = tag.transceive(ApduCommand.TRANS_SUCCESS_COMMAND);
-                    TransCode = new String(result, Charset.forName("US-ASCII"));
-                    System.out.println(TransCode);
+                if(TransCode.equals(APDUservice.APDU_RESPONSE_NONACTIVE)){
+                    return RESULT_STATE_APDU_NONACTIVE;
+                }
+                else if(TransCode.equals(APDUservice.APDU_RESPONSE_UNKNOWN_CMD)){
+                    return RESULT_STATE_UNKNOWN_CMD;
                 }
                 else{
-                    result = tag.transceive(ApduCommand.TRANS_SUCCESS_COMMAND);
-                    TransCode = new String(result, Charset.forName("US-ASCII"));
-                    System.out.println(TransCode);
+                    APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
+                    try{
+                        Boolean transresponse = apiConnection.TransactionResponse(TransCode);
+                        if(transresponse){
+                            return RESULT_STATE_TRANS_ACCEPT;
+                        }
+                        else{
+                            return RESULT_STATE_TRANS_INVALID;
+                        }
+                    }catch (IOException e){
+                        return RESULT_STATE_NETWORK_ERROR;
+                    }
                 }
-                return transresponse;
-
             } catch (IOException e) {
-                return null;
+                return RESULT_STATE_APDU_CONN_ERROR;
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean != null){
-                if(aBoolean){
-                    Toast.makeText(CardReaderFragment.this.context, "Accept", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(CardReaderFragment.this.context, "InValid", Toast.LENGTH_LONG).show();
-                }
-            }
-            else{
-                Toast.makeText(CardReaderFragment.this.context, "Try Again", Toast.LENGTH_LONG).show();
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case RESULT_STATE_TRANS_ACCEPT:
+                    Toast.makeText(context, "Accept", Toast.LENGTH_LONG).show();
+                    break;
+                case RESULT_STATE_TRANS_INVALID:
+                    Toast.makeText(context, "InValid", Toast.LENGTH_LONG).show();
+                    break;
+                case RESULT_STATE_APDU_CONN_ERROR:
+                    Toast.makeText(context, "Card Disconnect", Toast.LENGTH_LONG).show();
+                    break;
+                case RESULT_STATE_NETWORK_ERROR:
+                    Toast.makeText(context, "NetWork Error", Toast.LENGTH_LONG).show();
+                    break;
+                default:
+
             }
         }
     }

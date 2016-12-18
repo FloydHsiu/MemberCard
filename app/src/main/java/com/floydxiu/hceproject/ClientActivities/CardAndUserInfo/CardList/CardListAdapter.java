@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
@@ -18,6 +19,7 @@ import com.floydxiu.hceproject.ClientActivities.CardTransactionActivity.CardTran
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -157,8 +159,13 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         @Override
         protected String doInBackground(Integer... params) {
             APIConnection apiConnection = new APIConnection(CardListAdapter.this.context);
-            String TransCode = apiConnection.TransactionRequest(params[0].intValue(), params[1].intValue());
-            return TransCode;
+            try{
+                String TransCode = apiConnection.TransactionRequest(params[0].intValue(), params[1].intValue());
+                return TransCode;
+            }catch (IOException e){
+                e.printStackTrace();
+                return null;
+            }
         }
 
         @Override
@@ -170,6 +177,9 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                 intent.setClass(activity, CardTransactionActivity.class);
                 intent.putExtra("TransCode", s);
                 activity.startActivity(intent);
+            }
+            else{
+                Toast.makeText(CardListAdapter.this.context, "Error, Try later!", Toast.LENGTH_SHORT);
             }
         }
     }

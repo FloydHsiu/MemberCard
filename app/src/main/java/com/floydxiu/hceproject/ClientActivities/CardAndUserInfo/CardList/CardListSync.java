@@ -51,6 +51,9 @@ public class CardListSync {
             Boolean isGetCompanyList = apiConnection.getCompanyList();
             CompanyDBHelper companyDBHelper = new CompanyDBHelper(CardListSync.this.context);
 
+            CardDBHelper cardDBHelper = new CardDBHelper(CardListSync.this.context);
+            ArrayList<Card> local = cardDBHelper.queryAll();
+
             //trans jsonarray to arraylist
             CardListSPManager cardListSPManager = new CardListSPManager(CardListSync.this.context);
             cardListSPManager.setCardList_JSON(CardList.toString());
@@ -72,16 +75,21 @@ public class CardListSync {
                         e.printStackTrace();
                     }
                 }
-            }
 
-            //將本地與遠端同步
-            CardDBHelper cardDBHelper = new CardDBHelper(CardListSync.this.context);
-            ArrayList<Card> local = cardDBHelper.queryAll();
-            cardDBHelper.syncCardDB(local, list);
-            local = cardDBHelper.queryAll();
-            for(int i=0; i<local.size(); i++){
-                Card item = local.get(i);
-                item.setComName(companyDBHelper.queryComName(item.getComId()));
+                //將本地與遠端同步
+                cardDBHelper.syncCardDB(local, list);
+                local = cardDBHelper.queryAll();
+                for(int i=0; i<local.size(); i++){
+                    Card item = local.get(i);
+                    item.setComName(companyDBHelper.queryComName(item.getComId()));
+                }
+            }
+            else{
+                local = cardDBHelper.queryAll();
+                for(int i=0; i<local.size(); i++){
+                    Card item = local.get(i);
+                    item.setComName(companyDBHelper.queryComName(item.getComId()));
+                }
             }
 
             return local;
