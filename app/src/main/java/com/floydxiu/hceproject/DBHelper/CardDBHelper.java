@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.floydxiu.hceproject.DataType.Card;
+import com.floydxiu.hceproject.DataType.ExpireNotice;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,11 @@ public class CardDBHelper extends SQLiteOpenHelper{
     public static String CardLevel = "CardLevel";
     public static String IsReadyToExpire = "IsReadyToExpire";
 
+    Context context;
+
     public CardDBHelper(Context context){
         super(context, DATABASE_NAME, null, VERSION);
+        this.context = context;
     }
 
     @Override
@@ -81,8 +85,9 @@ public class CardDBHelper extends SQLiteOpenHelper{
         ArrayList<Card> list = new ArrayList<>();
         Cursor queryResult = CardDB.rawQuery("SELECT * FROM Card WHERE 1", null);
         queryResult.moveToFirst();
+        CompanyDBHelper companyDBHelper = new CompanyDBHelper(context);
         while(!queryResult.isAfterLast()){
-            Card temp = new Card(queryResult.getInt(0), "", queryResult.getInt(1), queryResult.getString(2), queryResult.getString(3), queryResult.getString(4));
+            Card temp = new Card(queryResult.getInt(0), companyDBHelper.queryComName(queryResult.getInt(0)), queryResult.getInt(1), queryResult.getString(2), queryResult.getString(3), queryResult.getString(4));
             list.add(temp);
             queryResult.moveToNext();
         }
@@ -146,4 +151,35 @@ public class CardDBHelper extends SQLiteOpenHelper{
         }
     }
 
+
+    public ArrayList<ExpireNotice> noticeCardExpire(){
+        ArrayList<ExpireNotice> result = new ArrayList<>();
+        ArrayList<Card> allCards = queryAll();
+        for(int i=0; i < allCards.size(); i++){
+            Card temp = allCards.get(i);
+            String CardType = temp.getCardType();
+            if(CardType.equals("Times")){
+                String Used_S = temp.getExpireTime().split("/")[0];
+                String All_S = temp.getExpireTime().split("/")[1];
+                int remainTime = Integer.parseInt(All_S) - Integer.parseInt(Used_S);
+                if(remainTime < 5){
+                    String notice = "卡片剩下 "+ remainTime + " 次使用次數，請記得購買新的票卷";
+                    result.add(new ExpireNotice(temp, notice));
+                }
+            }
+            else if(CardType.equals("Limited")){
+                long current = System.currentTimeMillis() / 1000L;
+                long expire = Long.parseLong(temp.getExpireTime());
+                long remainTime = (expire-current)/(60*60*24);
+                if(remainTime < 5){
+                    String notice = "卡片剩下 "+ remainTime + " 天，請記得購買新的票卷";
+                    result.add(new ExpireNotice(temp, notice));
+                }
+            }
+            else{
+
+            }
+        }
+        return result;
+    }
 }

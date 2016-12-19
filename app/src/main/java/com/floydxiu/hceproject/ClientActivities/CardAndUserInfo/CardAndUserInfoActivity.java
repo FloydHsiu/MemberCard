@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.AddCardActivity.AddCardActivity;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList.CardListSync;
+import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.UserNotice.UserNoticeFragment;
 import com.floydxiu.hceproject.R;
 import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
 
@@ -83,6 +84,21 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
                         intent.setClass(CardAndUserInfoActivity.this, UserCertificateActivity.class);
                         startActivity(intent);
                         CardAndUserInfoActivity.this.finish();
+                        break;
+                    case R.id.nav_userinfo:
+                        break;
+                    case R.id.nav_notice:
+                        fragmentManager = getFragmentManager();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerCardAndUserInfo, new UserNoticeFragment());
+                        fragmentTransaction.commit();
+                        drawerCardAndUserInfo.closeDrawer(Gravity.LEFT);
+                        break;
+                    case R.id.nav_cardlist:
+                        CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
+                        cardListSync.download();
+                        drawerCardAndUserInfo.closeDrawer(Gravity.LEFT);
+                        break;
                 }
                 return true;
             }
@@ -98,8 +114,6 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
-        cardListSync.download();
     }
 
     private void setToolbars(){
