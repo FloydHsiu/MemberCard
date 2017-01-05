@@ -2,7 +2,6 @@ package com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardAndUserInfoActivity;
 import com.floydxiu.hceproject.ClientActivities.CardTransactionActivity.CardTransactionActivity;
 import com.floydxiu.hceproject.DataType.Card;
 import com.floydxiu.hceproject.R;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -68,8 +64,13 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         btnStartTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransactionRequestTask transactionRequestTask = new TransactionRequestTask();
-                transactionRequestTask.execute(new Integer(item.getComId()), new Integer(item.getCardNum()));
+                CardAndUserInfoActivity activity = (CardAndUserInfoActivity) CardListAdapter.this.context;
+                Intent intent = new Intent();
+                intent.setClass(activity, CardTransactionActivity.class);
+                intent.putExtra("ComId", item.getComId());
+                intent.putExtra("CardNum", item.getCardNum());
+                activity.startActivity(intent);
+
             }
         });
 
@@ -141,9 +142,9 @@ public class CardListAdapter extends ArrayAdapter<Card> {
                 txvExpireTime.setText("∞");
                 break;
             case 'L':
-                String timestamp = item.getFormattedExpireTime();
+                String timestamp = item.getExpireTime();
                 Date date = new Date();
-                date.setTime(new Integer(timestamp));
+                date.setTime(new Long(timestamp));
                 txvExpireTime.setText(date.toString());
                 break;
             case 'T':
@@ -152,35 +153,6 @@ public class CardListAdapter extends ArrayAdapter<Card> {
             default:
                 txvExpireTime.setText("InValid");
                 break;
-        }
-    }
-
-    class TransactionRequestTask extends AsyncTask<Integer, Void, String>{
-        @Override
-        protected String doInBackground(Integer... params) {
-            APIConnection apiConnection = new APIConnection(CardListAdapter.this.context);
-            try{
-                String TransCode = apiConnection.TransactionRequest(params[0].intValue(), params[1].intValue());
-                return TransCode;
-            }catch (IOException e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s != null){
-                CardAndUserInfoActivity activity = (CardAndUserInfoActivity) CardListAdapter.this.context;
-                Intent intent = new Intent();
-                intent.setClass(activity, CardTransactionActivity.class);
-                intent.putExtra("TransCode", s);
-                activity.startActivity(intent);
-            }
-            else{
-                Toast.makeText(CardListAdapter.this.context, "Error, Try later!", Toast.LENGTH_SHORT);
-            }
         }
     }
 }

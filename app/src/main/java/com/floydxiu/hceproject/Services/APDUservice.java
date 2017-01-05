@@ -27,6 +27,8 @@ public class APDUservice extends HostApduService {
     public static String APDU_RESPONSE_NONACTIVE = "NA";
     public static String APDU_RESPONSE_UNKNOWN_CMD = "NC";
 
+    boolean lock = true;
+
     public APDUservice() {
         super();
     }
@@ -40,7 +42,16 @@ public class APDUservice extends HostApduService {
             //在此處理Reader傳入的訊息
             ApduCommand apduCommand = new ApduCommand(apdu);
             if(apduCommand.step == 0){
-                return TransCode.getBytes();
+                if( lock == true){
+                    Intent intent = new Intent("MemberCard.hce.app.action.NOTIFY_STATE");
+                    intent.putExtra("STATE", true);
+                    this.sendBroadcast(intent);
+                    lock = false;
+                    return TransCode.getBytes();
+                }
+                else{
+                    return APDU_RESPONSE_NONACTIVE.getBytes();
+                }
             }
             else{
                 return APDU_RESPONSE_UNKNOWN_CMD.getBytes();
@@ -69,7 +80,6 @@ public class APDUservice extends HostApduService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         cardtransactivity = intent;
-        Log.i("INTENT", cardtransactivity.toString());
         //service開始之後會執行此部分
         if(intent.getExtras() != null){
             TransCode = intent.getExtras().getString("TransCode");
