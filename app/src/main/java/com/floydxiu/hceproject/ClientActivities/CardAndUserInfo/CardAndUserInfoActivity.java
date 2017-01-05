@@ -21,11 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.floydxiu.hceproject.APIConnection.APIConnection;
 import com.floydxiu.hceproject.ClientActivities.AddCardActivity.AddCardActivity;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.CardList.CardListSync;
 import com.floydxiu.hceproject.ClientActivities.CardAndUserInfo.UserNotice.UserNoticeFragment;
+import com.floydxiu.hceproject.DBHelper.CardDBHelper;
 import com.floydxiu.hceproject.R;
 import com.floydxiu.hceproject.UserCertificateActivities.UserCertificateActivity;
 
@@ -107,7 +109,10 @@ public class CardAndUserInfoActivity extends AppCompatActivity {
         CardListSync cardListSync = new CardListSync(CardAndUserInfoActivity.this);
         cardListSync.download();
 
-
+        CardDBHelper cardDBHelper = new CardDBHelper(this);
+        if(cardDBHelper.noticeCardExpire().size() > 0){
+            Toast.makeText(this, "你有新通知！去確認你的通知吧！", Toast.LENGTH_LONG).show();
+        }
 
     }
 

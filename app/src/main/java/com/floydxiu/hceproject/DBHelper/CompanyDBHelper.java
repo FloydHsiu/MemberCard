@@ -20,9 +20,10 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
     // 資料庫版本，資料結構改變的時候要更改這個數字，通常是加一
     public static final int VERSION = 1;
 
-    public static String TableName = "Company";
-    public static String ComId = "ComId";
-    public static String ComName = "ComName";
+    public static String TableName = "COMPANY";
+    public static String ID = "ID";
+    public static String NAME = "NAME";
+    public static String ICON = "ICON";
 
     public CompanyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -31,9 +32,11 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS Company(" +
-                "ComId INT PRIMARY KEY NOT NULL," +
-                "ComName VARCHAR(40) NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS COMPANY(" +
+                "    ID INT NOT NULL," +
+                "    NAME VARCHAR(20) NOT NULL," +
+                "    ICON VARCHAR(25) NOT NULL," +
+                "    PRIMARY KEY(ID));");
     }
 
     @Override
@@ -41,9 +44,9 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public String queryComName(int ComId){
+    public String queryCompanyName(int id){
         SQLiteDatabase companydb = this.getReadableDatabase();
-        Cursor queryResult = companydb.rawQuery("SELECT ComName FROM Company WHERE ComId=" + ComId, null);
+        Cursor queryResult = companydb.rawQuery("SELECT NAME FROM COMPANY WHERE ID=" + id, null);
         queryResult.moveToFirst();
         String result = queryResult.getString(0);
         companydb.close();
@@ -53,7 +56,7 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
     public ArrayList<Company> queryAll(){
         ArrayList<Company> list = new ArrayList<>();
         SQLiteDatabase companydb = this.getReadableDatabase();
-        Cursor queryResult = companydb.rawQuery("SELECT * FROM Company WHERE 1", null);
+        Cursor queryResult = companydb.rawQuery("SELECT * FROM COMPANY WHERE 1", null);
         queryResult.moveToFirst();
         while(!queryResult.isAfterLast()){
             list.add(new Company(queryResult.getInt(0), queryResult.getString(1)));
@@ -63,18 +66,19 @@ public class CompanyDBHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    private boolean isComIdExist(int ComId){
+    private boolean isCompanyIdExist(int id){
         SQLiteDatabase companydb = this.getReadableDatabase();
-        Cursor queryResult = companydb.rawQuery("SELECT * FROM Company WHERE ComId="+ComId, null);
+        Cursor queryResult = companydb.rawQuery("SELECT * FROM COMPANY WHERE ID="+id, null);
         return (queryResult.getCount() > 0);
     }
 
-    public void insertCom(int ComId, String ComName){
+    public void insertCompany(int id, String name, String icon){
         SQLiteDatabase companydb = this.getReadableDatabase();
-        if(!isComIdExist(ComId)){
+        if(!isCompanyIdExist(id)){
             ContentValues contentValues = new ContentValues();
-            contentValues.put(this.ComId, ComId);
-            contentValues.put(this.ComName, ComName);
+            contentValues.put(this.ID, id);
+            contentValues.put(this.NAME, name);
+            contentValues.put(this.ICON, icon);
             companydb.insertOrThrow(this.TableName, null, contentValues);
         }
         companydb.close();

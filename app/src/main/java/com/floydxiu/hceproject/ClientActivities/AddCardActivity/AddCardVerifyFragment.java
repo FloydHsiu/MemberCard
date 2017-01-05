@@ -54,7 +54,7 @@ public class AddCardVerifyFragment extends Fragment {
         imgCompanySelected = (ImageView) v.findViewById(R.id.imgCompanySelected);
 
         CompanyDBHelper companyDBHelper = new CompanyDBHelper(this.context);
-        String selectedComName = companyDBHelper.queryComName(addCardActivity.ComId);
+        String selectedComName = companyDBHelper.queryCompanyName(addCardActivity.ComId);
         txvCompanyNameSelected.setText(selectedComName);
 
         linearlayoutCompanySelected.setOnClickListener(new View.OnClickListener() {

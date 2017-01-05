@@ -65,8 +65,8 @@ public class CardListSync {
                     try {
                         JSONObject temp = CardList.getJSONObject(i);
                         list.add(new Card(
-                                temp.getInt("ComId"),
-                                companyDBHelper.queryComName(temp.getInt("ComId")),
+                                temp.getInt("ID"),
+                                companyDBHelper.queryCompanyName(temp.getInt("ID")),
                                 temp.getInt("CardNum"),
                                 temp.getString("CardType"),
                                 temp.getString("ExpireTime"),
@@ -81,14 +81,14 @@ public class CardListSync {
                 local = cardDBHelper.queryAll();
                 for(int i=0; i<local.size(); i++){
                     Card item = local.get(i);
-                    item.setComName(companyDBHelper.queryComName(item.getComId()));
+                    item.setComName(companyDBHelper.queryCompanyName(item.getComId()));
                 }
             }
             else{
                 local = cardDBHelper.queryAll();
                 for(int i=0; i<local.size(); i++){
                     Card item = local.get(i);
-                    item.setComName(companyDBHelper.queryComName(item.getComId()));
+                    item.setComName(companyDBHelper.queryCompanyName(item.getComId()));
                 }
             }
 

@@ -23,7 +23,7 @@ public class CardDBHelper extends SQLiteOpenHelper{
     public static final int VERSION = 1;
 
     public static String TableName = "Card";
-    public static String ComId = "ComId";
+    public static String ComId = "ID";
     public static String CardNum = "CardNum";
     public static String CardType = "CardType";
     public static String ExpireTime = "ExpireTime";
@@ -40,13 +40,13 @@ public class CardDBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS Card(" +
-                "ComId INT NOT NULL," +
+                "ID INT NOT NULL," +
                 "CardNum INT NOT NULL," +
                 "CardType VARCHAR(10) NOT NULL," +
                 "ExpireTime VARCHAR(20) NOT NULL," +
                 "CardLevel VARCHAR(20) NOT NULL," +
                 "IsReadyToExpire VARCHAR(1) NOT NULL," +
-                "PRIMARY KEY (ComId, CardNum) )");
+                "PRIMARY KEY (ID, CardNum) )");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CardDBHelper extends SQLiteOpenHelper{
     //判斷傳入的卡片資訊是否已經存在在手機的SQLite資料庫中
     public boolean isCardInDB(int ComId, int CardNum){
         SQLiteDatabase CardDB = this.getReadableDatabase();
-        String sql = "SELECT * FROM Card WHERE ComId="+ComId+" AND CardNum="+CardNum;
+        String sql = "SELECT * FROM Card WHERE ID="+ComId+" AND CardNum="+CardNum;
         Cursor queryResult = CardDB.rawQuery(sql, null);
 
         CardDB.close();
@@ -68,15 +68,15 @@ public class CardDBHelper extends SQLiteOpenHelper{
 
     public void delete(int ComId, int CardNum){
         SQLiteDatabase CardDB = this.getWritableDatabase();
-        //String sql = "SELECT * FROM Card WHERE ((ComId, CardNum) IN (("+ComId+","+CardNum+")))";
-        CardDB.delete(TableName, "ComId="+ComId+" AND CardNum="+CardNum, null);
+        //String sql = "SELECT * FROM Card WHERE ((ID, CardNum) IN (("+ID+","+CardNum+")))";
+        CardDB.delete(TableName, "ID="+ComId+" AND CardNum="+CardNum, null);
 
         CardDB.close();
     }
 
     public void update(int ComId, int CardNum, ContentValues values){
         SQLiteDatabase CardDB = this.getWritableDatabase();
-        CardDB.update(TableName, values, "ComId="+ComId+" AND CardNum="+CardNum, null);
+        CardDB.update(TableName, values, "ID="+ComId+" AND CardNum="+CardNum, null);
         CardDB.close();
     }
 
@@ -87,7 +87,7 @@ public class CardDBHelper extends SQLiteOpenHelper{
         queryResult.moveToFirst();
         CompanyDBHelper companyDBHelper = new CompanyDBHelper(context);
         while(!queryResult.isAfterLast()){
-            Card temp = new Card(queryResult.getInt(0), companyDBHelper.queryComName(queryResult.getInt(0)), queryResult.getInt(1), queryResult.getString(2), queryResult.getString(3), queryResult.getString(4));
+            Card temp = new Card(queryResult.getInt(0), companyDBHelper.queryCompanyName(queryResult.getInt(0)), queryResult.getInt(1), queryResult.getString(2), queryResult.getString(3), queryResult.getString(4));
             list.add(temp);
             queryResult.moveToNext();
         }

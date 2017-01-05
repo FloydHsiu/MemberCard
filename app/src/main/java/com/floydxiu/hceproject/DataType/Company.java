@@ -30,7 +30,7 @@ public class Company {
             JSONArray CompanyListJSONArray = CompanyListJSON.getJSONArray("CompanyList_array");
             for(int i=0; i< CompanyListJSONArray.length(); i++){
                 JSONObject temp = CompanyListJSONArray.getJSONObject(i);
-                CompanyList.add(new Company(temp.getInt("ComId"), temp.getString("ComName")));
+                CompanyList.add(new Company(temp.getInt("ID"), temp.getString("NAME")));
             }
 
         } catch (JSONException e) {

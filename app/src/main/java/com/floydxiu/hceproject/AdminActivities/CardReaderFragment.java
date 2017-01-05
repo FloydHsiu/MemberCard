@@ -84,7 +84,7 @@ public class CardReaderFragment extends Fragment implements NfcAdapter.ReaderCal
                 else{
                     APIConnection apiConnection = new APIConnection(CardReaderFragment.this.context);
                     try{
-                        Boolean transresponse = apiConnection.TransactionResponse(TransCode);
+                        Boolean transresponse = apiConnection.TransactionSTEP0(TransCode);
                         if(transresponse){
                             return RESULT_STATE_TRANS_ACCEPT;
                         }

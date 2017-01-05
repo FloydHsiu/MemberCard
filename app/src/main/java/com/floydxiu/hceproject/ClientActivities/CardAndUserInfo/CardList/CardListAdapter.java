@@ -160,7 +160,7 @@ public class CardListAdapter extends ArrayAdapter<Card> {
         protected String doInBackground(Integer... params) {
             APIConnection apiConnection = new APIConnection(CardListAdapter.this.context);
             try{
-                String TransCode = apiConnection.TransactionRequest(params[0].intValue(), params[1].intValue());
+                String TransCode = apiConnection.TransactionStart(params[0].intValue(), params[1].intValue());
                 return TransCode;
             }catch (IOException e){
                 e.printStackTrace();

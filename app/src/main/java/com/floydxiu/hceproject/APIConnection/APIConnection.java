@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.floydxiu.hceproject.DBHelper.CardDBHelper;
@@ -39,14 +40,14 @@ public class APIConnection {
     /* !!!!!!!!!!!! */
     public static String SERVER_CLIENT_ADDR = "http://218.161.0.65/HCEprojectAPI/Client/";
     public static String SERVER_ADMIN_ADDR = "http://218.161.0.65/HCEprojectAPI/Admin/";
-    private static String LOGIN_ADDR = SERVER_CLIENT_ADDR + "login.php";
-    private static String IS_LOGIN_STATE_ADDR = SERVER_CLIENT_ADDR + "IsLoginState.php";
-    private static String CREATE_ACCOUNT_ADDR = SERVER_CLIENT_ADDR + "createAccount.php";
-    private static String GET_CARDLSIT = SERVER_CLIENT_ADDR + "getCardList.php";
-    private static String GET_COMPANYLIST = SERVER_CLIENT_ADDR + "getCompanyList.php";
-    private static String Add_CARD_CLIENT = SERVER_CLIENT_ADDR + "addCard.php";
-    private static String TRANSACTION_RESPONSE = SERVER_ADMIN_ADDR + "TransactionResponse.php";
-    private static String TRANSACTION_REQUEST = SERVER_CLIENT_ADDR + "TransactionRequest.php";
+    public static String SERVER_ADDR = "http://218.161.0.65/HCEprojectAPI/Controller/";
+    private static String LOGIN_ADDR = SERVER_ADDR + "AccountController.php?OPTION=LOGIN";
+    private static String CREATE_ACCOUNT_ADDR = SERVER_ADDR + "AccountController.php?OPTION=CREATE";
+    private static String GET_CARDLSIT_BY_ACCOUNT = SERVER_ADDR + "CardController.php?OPTION=SELECTBYACCOUNT";
+    private static String GET_COMPANYLIST = SERVER_ADDR + "CompanyController.php?OPTION=SELECTALL";
+    private static String ADD_CARD_CLIENT = SERVER_ADDR + "CardController.php?OPTION=ADD";
+    private static String TRANSACTION_STEP0 = SERVER_ADDR + "TransactionController.php?OPTION=STEP0";
+    private static String TRANSACTION_START = SERVER_ADDR + "TransactionController.php?OPTION=START";
 
     public APIConnection(Context context){
         this.context = context;
@@ -59,13 +60,13 @@ public class APIConnection {
         try {
             URL url = new URL(LOGIN_ADDR);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(1500);
-            httpconn.setReadTimeout(1500);
+            httpconn.setConnectTimeout(5000);
+            httpconn.setReadTimeout(5000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(true);
             httpconn.setRequestMethod("POST");
                     /* !!!!!!!!!!! */
-            String request_data = "ACC=" + acc + "&PWD=" + pwd;
+            String request_data = "ACCID=" + acc + "&PWD=" + pwd;
             OutputStream os = httpconn.getOutputStream();
             os.write(request_data.getBytes());
             os.close();
@@ -80,7 +81,7 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
                     /* !!!!!!!!!!! */
-            boolean loginState = responseJSON.getBoolean("valid");
+            boolean loginState = responseJSON.getBoolean("STATE");
 
             System.out.println("***** Session GET : " + sessions.get(0));
 
@@ -94,6 +95,7 @@ public class APIConnection {
             else{
                 loginStateSPManager.setLoginState(false);
                 loginStateSPManager.setSession("");
+                Log.i("Account Login", responseJSON.getString("ERROR"));
                 return  false;
             }
         } catch (MalformedURLException e) {
@@ -114,13 +116,13 @@ public class APIConnection {
                 try {
                     URL url = new URL(CREATE_ACCOUNT_ADDR);
                     HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-                    httpconn.setConnectTimeout(1500);
-                    httpconn.setReadTimeout(1500);
+                    httpconn.setConnectTimeout(5000);
+                    httpconn.setReadTimeout(5000);
                     httpconn.setDoInput(true);
                     httpconn.setDoOutput(true);
                     httpconn.setRequestMethod("POST");
                     /* !!!!!!!!!!! */
-                    String request_data = "ACC=" + params[0] + "&PWD=" + params[1];
+                    String request_data = "ACC=" + params[0] + "&PWD=" + params[1] + "&EMAIL=" + params[2];
                     OutputStream os = httpconn.getOutputStream();
                     os.write(request_data.getBytes());
                     os.close();
@@ -131,7 +133,8 @@ public class APIConnection {
                     String response_data = readAll(is);
                     JSONObject responseJSON = new JSONObject(response_data);
                     /* !!!!!!!!!!! */
-                    boolean createAccountState = responseJSON.getBoolean("valid");
+                    boolean createAccountState = responseJSON.getBoolean("STATE");
+                    if( createAccountState == false) Log.i("Create Account", responseJSON.getString("ERROR"));
                     return createAccountState;
 
                 } catch (MalformedURLException e) {
@@ -213,12 +216,12 @@ public class APIConnection {
 
     /**  CardList API **/
 
-    public boolean addNewCard(String ComId, String CardNum, String Phone, String NationId){
+    public boolean addNewCard(String companyid, String num, String phone, String idcard){
         try {
-            URL url = new URL(Add_CARD_CLIENT);
+            URL url = new URL(ADD_CARD_CLIENT);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(1500);
-            httpconn.setReadTimeout(1500);
+            httpconn.setConnectTimeout(5000);
+            httpconn.setReadTimeout(5000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(true);
             httpconn.setRequestMethod("POST");
@@ -228,7 +231,7 @@ public class APIConnection {
             httpconn.setRequestProperty("Cookie", session);
 
             /* !!!!!!!!!!! */
-            String request_data = "ComId=" + ComId + "&CardNum=" + CardNum + "&Phone=" + Phone + "&NationId=" + NationId;
+            String request_data = "COMPANYID" + companyid + "&NUM=" + num + "&PHONE=" + phone + "&IDCARD=" + idcard;
             OutputStream os = httpconn.getOutputStream();
             os.write(request_data.getBytes());
             os.close();
@@ -240,23 +243,11 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
 
-            String state = responseJSON.getString("state");
+            Boolean state = responseJSON.getBoolean("STATE");
 
-            if("success".equals(state)){
-                return true;
-            }
-            else if("no this card".equals(state)){
-                return false;
-            }
-            else if("not login".equals(state)){
-                return false;
-            }
-            else if("Wrong card certificate".equals(state)){
-                return false;
-            }
-            else if("Update error".equals(state)){
-                return false;
-            }
+            if( state == false ) Log.i("Add Card", responseJSON.getString("ERROR"));
+
+            return state;
 
         }catch (MalformedURLException e) {
             e.printStackTrace();
@@ -272,10 +263,10 @@ public class APIConnection {
     public JSONArray getCardList() {
 
         try {
-            URL url = new URL(GET_CARDLSIT);
+            URL url = new URL(GET_CARDLSIT_BY_ACCOUNT);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(1500);
-            httpconn.setReadTimeout(1500);
+            httpconn.setConnectTimeout(5000);
+            httpconn.setReadTimeout(5000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(false);
             httpconn.setRequestMethod("GET");
@@ -291,8 +282,10 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
 
-            if("success".equals(responseJSON.getString("state"))){
-                return responseJSON.getJSONArray("CardList");
+            Boolean state = responseJSON.getBoolean("STATE");
+
+            if( state ){
+                return responseJSON.getJSONArray("CARDS");
             }
             else{
                 return null;
@@ -315,8 +308,8 @@ public class APIConnection {
         try {
             URL url = new URL(GET_COMPANYLIST);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(1500);
-            httpconn.setReadTimeout(1500);
+            httpconn.setConnectTimeout(5000);
+            httpconn.setReadTimeout(5000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(false);
             httpconn.setRequestMethod("GET");
@@ -332,17 +325,19 @@ public class APIConnection {
             String response_data = readAll(is);
             JSONObject responseJSON = new JSONObject(response_data);
 
-            if("success".equals(responseJSON.getString("state"))){
+            Boolean state = responseJSON.getBoolean("STATE");
+
+            if( state ){
                 CompanyDBHelper companyDBHelper = new CompanyDBHelper(this.context);
+                JSONArray companys = responseJSON.getJSONArray("COMPANY");
 
-                JSONArray companylist_array = responseJSON.getJSONArray("CompanyList_array");
-
-                for(int i=0; i < companylist_array.length() ; i++){
-                    JSONObject company = companylist_array.getJSONObject(i);
-                    companyDBHelper.insertCom(company.getInt(companyDBHelper.ComId), company.getString(companyDBHelper.ComName));
+                for(int i=0; i<companys.length(); i++){
+                    JSONObject company = companys.getJSONObject(i);
+                    companyDBHelper.insertCompany( company.getInt("ID"), company.getString("NAME"), company.getString(("ICON")));
                 }
                 return true;
             }
+
 
         }catch (MalformedURLException e) {
             e.printStackTrace();
@@ -356,12 +351,12 @@ public class APIConnection {
 
     /** Transaction **/
 
-    public boolean TransactionResponse(String TransCode) throws IOException{
+    public boolean TransactionSTEP0(String TransCode) throws IOException{
         try {
-            URL url = new URL(TRANSACTION_RESPONSE);
+            URL url = new URL(TRANSACTION_STEP0);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setConnectTimeout(10000);
-            httpconn.setReadTimeout(10000);
+            httpconn.setConnectTimeout(5000);
+            httpconn.setReadTimeout(5000);
             httpconn.setDoInput(true);
             httpconn.setDoOutput(true);
             httpconn.setRequestMethod("POST");
@@ -393,9 +388,9 @@ public class APIConnection {
         return false;
     }
 
-    public String TransactionRequest(int ComId, int CardNum) throws IOException{
+    public String TransactionStart(int ComId, int CardNum) throws IOException{
         try{
-            URL url = new URL(TRANSACTION_REQUEST);
+            URL url = new URL(TRANSACTION_START);
             HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
             httpconn.setConnectTimeout(1500);
             httpconn.setReadTimeout(1500);
@@ -407,7 +402,7 @@ public class APIConnection {
             String session = loginStateSPManager.getSession();
             httpconn.setRequestProperty("Cookie", session);
 
-            String request_data = "ComId=" + ComId + "&CardNum=" + CardNum;
+            String request_data = "ID=" + ComId + "&CardNum=" + CardNum;
             OutputStream os = httpconn.getOutputStream();
             os.write(request_data.getBytes());
             os.close();
